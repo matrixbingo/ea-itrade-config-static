@@ -10,7 +10,7 @@ import {Grid,Row,Col} from 'eagle-ui'
 class Index extends Component {
     constructor(props) {
         super(props)
-        
+
     }
 
     render(){
@@ -22,7 +22,7 @@ class Index extends Component {
                         textAlign:'center'
                     }}><a className="eg-btn button" href="#test">跳转到测试页面</a></Col>
                 </Row>
-                
+
             </Grid>
         )
     }
@@ -48,8 +48,8 @@ class AppRouter extends Component {
         return (
             <div>
                 <Router history={this.history}>
-                    <Route path="/test" component={TestContainer} />
                     <Route path="/index" component={Index} />
+                    <Route path="/test" component={TestContainer} />
                     <Route path="/qwe" component={TestContainer} />
                     <Redirect from="/" to="/index" />
                 </Router>
