@@ -1,8 +1,9 @@
 import {Model} from 'gfs-react-dm'
+import BaseModel from 'BaseModel'
 //import Immutable from 'immutable'
 
 @Model
-export default class TestModel {
+export default class TestModel extends BaseModel{
     //此字段必须要有
     static __name = 'test'
 

@@ -20,7 +20,7 @@
     "rules": {
         "strict": 0,
         "linebreak-style": [
-            "error", "unix"
+            "error", "windows"
         ],
         "quotes": [
             "error",

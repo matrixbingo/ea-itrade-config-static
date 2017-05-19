@@ -48,8 +48,8 @@ class AppRouter extends Component {
         return (
             <div>
                 <Router history={this.history}>
-                    <Route path="/index" component={Index} />
                     <Route path="/test" component={TestContainer} />
+                    <Route path="/index" component={Index} />
                     <Route path="/qwe" component={TestContainer} />
                     <Redirect from="/" to="/index" />
                 </Router>

@@ -5,16 +5,6 @@ import BaseControl from 'BaseControl'
 @Control(TestModel )
 export default class TestControl extends BaseControl{
 
-    static queryBookTypes(){
-
-        return (dispatch)=>{
-            fetch('/test').then((data)=>{
-                window.console.log('queryBookTypes', data)
-                dispatch(this.update(data.data) )
-            })
-        }
-    }
-
     static getBooks(index,bookList){
         //根据此类生成的update方法
         window.console.log('getBooks', index,bookList)
@@ -29,7 +19,7 @@ export default class TestControl extends BaseControl{
             dispatch(this.update('updateIndex',-1) )
         }
     }
-
+    
     static delBook(index){
         //根据此类生成的del方法
         window.console.log('delBook : ', index)
