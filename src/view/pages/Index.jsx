@@ -1,32 +1,9 @@
 import React, { Component /*,PropTypes*/} from 'react'
 import { Redirect, Router, Route } from 'react-router'
-import {View,page} from 'gfs-react-dm'
+import {page} from 'gfs-react-dm'
 import History from 'history/lib/createHashHistory'
 import TestContainer from './Test'
-import TestControl from '@controller/TestControl'
-import {Grid,Row,Col} from 'eagle-ui'
-
-@View(TestControl)
-class Index extends Component {
-    constructor(props) {
-        super(props)
-
-    }
-
-    render(){
-
-        return (
-            <Grid fluid>
-                <Row>
-                    <Col style={{
-                        textAlign:'center'
-                    }}><a className="eg-btn button" href="#test">跳转到测试页面</a></Col>
-                </Row>
-
-            </Grid>
-        )
-    }
-}
+import Index from '../components/test/Index'
 
 class AppRouter extends Component {
 
