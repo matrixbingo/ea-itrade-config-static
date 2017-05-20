@@ -1,9 +1,8 @@
 import {Control,fetch} from 'gfs-react-dm'
 import TestModel from '../model/TestModel'
-import BaseControl from 'BaseControl'
 
 @Control(TestModel )
-export default class TestControl extends BaseControl{
+export default class TestControl{
 
     static queryBookTypes(){
 
