@@ -1,9 +1,7 @@
 import React, { Component /*,PropTypes*/} from 'react'
 import {View,page} from 'gfs-react-dm'
-
+import {Head,Footer} from 'ea-head'
 import TestControl from '@controller/TestControl'
-import HeaderCompoent from '@component/test/Header'
-import FooterCompoent from '@component/test/Footer'
 import TestCompoent from '@component/test/Test'
 import '../styles/test.less'
 
@@ -14,11 +12,16 @@ export default class Test extends Component{
     }
 
     render(){
+        const logo = {
+            className: 'null',
+            title: 'EA'
+        }
+
         return (
             <div>
-                <HeaderCompoent />
+                <Head logo={logo} />
                 <TestCompoent {...this.props} />
-                <FooterCompoent />
+                <Footer />
             </div>
         )
     }
