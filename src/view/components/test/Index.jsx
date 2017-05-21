@@ -11,7 +11,6 @@ export default class Index extends Component {
     }
 
     render(){
-
         return (
             <Grid fluid>
                 <Row>
