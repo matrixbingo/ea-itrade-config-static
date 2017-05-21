@@ -2,7 +2,7 @@ import React, { Component /*,PropTypes*/} from 'react'
 import {View,page} from 'gfs-react-dm'
 import {Head,Footer} from 'ea-head'
 import TestControl from '@controller/TestControl'
-import TestCompoent from '@component/test/Test'
+import BookList from '@component/test/BookList'
 import '../styles/test.less'
 
 @View(TestControl)
@@ -20,7 +20,7 @@ export default class Test extends Component{
         return (
             <div>
                 <Head logo={logo} />
-                <TestCompoent {...this.props} />
+                <BookList {...this.props} />
                 <Footer />
             </div>
         )

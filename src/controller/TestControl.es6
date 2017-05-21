@@ -2,7 +2,7 @@ import {Control,fetch} from 'gfs-react-dm'
 import TestModel from '../model/TestModel'
 
 @Control(TestModel )
-export default class TestControl{
+export default class TestControl {
 
     static queryBookTypes(){
 

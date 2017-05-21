@@ -3,7 +3,7 @@ import React, { Component /*,PropTypes*/} from 'react'
 import {Suggestion,Grid,Row,Col,Button} from 'eagle-ui'
 import Books from './Books'
 
-export default class Test extends Component{
+export default class BookList extends Component{
 
     constructor(props){
         super(props)
