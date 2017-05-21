@@ -1,9 +1,9 @@
-import React, { Component /*,PropTypes*/} from 'react'
-import { Redirect, Router, Route } from 'react-router'
+import React, {Component /*,PropTypes*/} from 'react'
+import {Redirect, Router, Route} from 'react-router'
 import {page} from 'gfs-react-dm'
 import History from 'history/lib/createHashHistory'
-import TestContainer from './Test'
-import Index from '../components/test/Index'
+import Index from '../components/trade/Index'
+import Test from './Test'
 
 class AppRouter extends Component {
 
@@ -15,9 +15,6 @@ class AppRouter extends Component {
         })
     }
 
-    static defaultProps={
-
-    }
     /**
      * 页面路由总览，children为外接做入口，外接入口即为AppRouter
      */
@@ -25,14 +22,13 @@ class AppRouter extends Component {
         return (
             <div>
                 <Router history={this.history}>
-                    <Route path="/index" component={Index} />
-                    <Route path="/test" component={TestContainer} />
-                    <Route path="/qwe" component={TestContainer} />
-                    <Redirect from="/" to="/index" />
+                    <Route path="/index" component={Index}/>
+                    <Route path="/test" component={Test}/>
+                    <Redirect from="/" to="/index"/>
                 </Router>
             </div>
         )
     }
 }
 
-page(AppRouter )
+page(AppRouter)

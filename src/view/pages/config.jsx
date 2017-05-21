@@ -3,7 +3,7 @@ import { Redirect, Router, Route } from 'react-router'
 import {page} from 'gfs-react-dm'
 import History from 'history/lib/createHashHistory'
 import TestContainer from './Test'
-import Index from '../components/test/Index'
+import Index from '../components/trade/Index'
 
 class AppConfigRouter extends Component {
 
