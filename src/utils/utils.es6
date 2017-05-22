@@ -7,7 +7,7 @@ import $ from 'jquery'
 export let DataUtil = DataUtil || {}
 export let FormUtil = FormUtil || {}
 export let FrwkUtil = FrwkUtil || {}
-export let MathUtil = FrwkUtil || {}
+export let MathUtil = MathUtil || {}
 
 MathUtil.REGS = {
     /**
@@ -18,6 +18,18 @@ MathUtil.REGS = {
 }
 MathUtil.match = function (reg, str) {
     return str.match(reg)
+}
+
+DataUtil.StringUtils = {
+    trim: function (str) {
+        if (str != null && typeof(str) != 'undefined' && str.length > 0) {
+            return str.replace(/(^\s*)|(\s*$)/g, "")
+        }
+        return str
+    },
+    subStringByFirstPoint: function (str) {
+        return str.match(MathUtil.REGS.subStringByFirstPoint, str)[1]
+    }
 }
 
 export function merge(arr) {
@@ -61,13 +73,6 @@ export function getValueBylinkedState(model, valueLink) {
     }
 
     return val
-}
-
-export function trim(str) {
-    if (str != null && typeof(str) != 'undefined' && str.length > 0) {
-        return str.replace(/(^\s*)|(\s*$)/g, "")
-    }
-    return str
 }
 
 /**
@@ -313,29 +318,33 @@ for (var i = 0, c; c = DataUtil.is.types[i++];) {
     })(c)
 }
 
-FrwkUtil.getValueBylinkedState = function(model, keys) {
-    if (!model|| !keys) {
-        return ''
-    }
-    let val = '', rs = []
-    try {
-        if (keys.length > 1) {
-            for (var i in keys) {
-                if (i == 0) {
-                    rs = model.get(keys[i])
-                } else if (i > 0) {
-                    rs = rs.get(keys[i])
-                }
-            }
-            val = rs
-        } else {
-            val = model.get(keys[0])
+FrwkUtil.store = {
+    getValueBylinkedState: function (props, valueLink) {
+        let keys = valueLink.split('.')
+        const modelName = keys.shift()
+        const model = props[modelName.toLowerCase()]
+        if (!model || !keys) {
+            return ''
         }
-    } catch (e) {
-        console.error('getValueBylinkedState', keys.join(), rs, e)
+        let val = '', rs = []
+        try {
+            if (keys.length > 1) {
+                for (var i in keys) {
+                    if (i == 0) {
+                        rs = model.get(keys[i])
+                    } else if (i > 0) {
+                        rs = rs.get(keys[i])
+                    }
+                }
+                val = rs
+            } else {
+                val = model.get(keys[0])
+            }
+        } catch (e) {
+            console.error('FrwkUtil.store.getValueBylinkedState', keys.join(), rs, e)
+        }
+        return val
     }
-    console.log('val', val)
-    return val
 }
 
 DataUtil.format = {
@@ -474,18 +483,19 @@ DataUtil.validate = {
      */
     mobile: function (str) {
         str = str + '';
-        if(str && str.length == 11){
+        if (str && str.length == 11) {
             return true;
-        };
+        }
+        ;
         return false;
         /*var reg = /^(((13[0-9]{1})|(15[0-9]{1})|(18[0-9]{1}))+\d{8})$/;
-        return reg.test(str);*/
+         return reg.test(str);*/
     }/*,
-    maxLength: function (str) {
-        str = trim(str + '');
-        if(str && str.length )
-        return reg.test(str);
-    }*/
+     maxLength: function (str) {
+     str = trim(str + '');
+     if(str && str.length )
+     return reg.test(str);
+     }*/
 }
 
 DataUtil.jsonStr = function (data) {
@@ -550,10 +560,10 @@ FormUtil.getDialogWidth = function () {
  */
 DataUtil.formatTime = function (time) {
     time = time + '';
-    return time.substr(0,4) + '-' + time.substr(4,2) + '-' + time.substr(6,2);
+    return time.substr(0, 4) + '-' + time.substr(4, 2) + '-' + time.substr(6, 2);
 }
 
-DataUtil.getType = function(type) {
+DataUtil.getType = function (type) {
     switch (type) {
         case 1:
             return '小盘>9000';
@@ -566,6 +576,6 @@ DataUtil.getType = function(type) {
     }
 }
 
-FormUtil.getStockUrl = function(code){
-    return 'http://stockhtm.finance.qq.com/sstock/ggcx/' + code  + '.shtml';
+FormUtil.getStockUrl = function (code) {
+    return 'http://stockhtm.finance.qq.com/sstock/ggcx/' + code + '.shtml';
 }

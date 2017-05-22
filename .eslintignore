@@ -3,4 +3,5 @@ dist/*
 src/html/*
 neurons/*
 src/lib/*
-utils
+src/utils/*
+

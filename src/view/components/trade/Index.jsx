@@ -15,8 +15,8 @@ export default class Index extends Component {
         return (
             <Grid fluid>
                 <Row>
-                    <TextArea {...this.props} valueLink="BaseModel.textArea"/>
-                    {this.props['basemodel'].get('textArea')}
+                    <TextArea {...this.props} valueLink="BaseModel.textArea.value"/>
+                    {this.props['basemodel'].get('textArea').get('value')}
                 </Row>
                 <Row>
                     {this.props['basemodel'].get('books')}

@@ -4,7 +4,6 @@
 import React, {Component, PropTypes} from 'react'
 import {FrwkUtil} from '../../../../utils/utils.es6'
 import './TextArea.less'
-import devLog from 'dev-pretty-log'
 
 export default class TextArea extends Component {
     static propTypes = {
@@ -28,9 +27,8 @@ export default class TextArea extends Component {
         }
     }
 
-    change(e) {
-        devLog.log('e.target.value', e.target.value)
-        this.props.setValueByReducers(this.props.valueLink, e.target.value);
+    onChange(e) {
+        this.props.setValueByReducers(this.props.valueLink, e.target.value)
     }
 
     componentWillReceiveProps(props) {
@@ -50,11 +48,7 @@ export default class TextArea extends Component {
         if (this.props.defaultValue) {
             return this.props.defaultValue
         }
-        let arr = this.props.valueLink.split('.');
-        const modelName = arr.shift()   ;
-        const model = this.props[modelName.toLowerCase()]
-        return FrwkUtil.getValueBylinkedState(model, arr)
-
+        return FrwkUtil.store.getValueBylinkedState(this.props, this.props.valueLink)
     }
 
     render() {
@@ -66,14 +60,15 @@ export default class TextArea extends Component {
                     <span style={{height: height + 'px'}}>{value}</span>
                 </div>
             )
+        }else{
+            return (
+                <textarea disabled={this.props.disabled}
+                          ref="description"
+                          onChange={this.onChange.bind(this)}
+                          rows={this.props.rows}
+                          value={value}
+                          placeholder={this.props.placeholder} />
+            )
         }
-        return (
-            <textarea disabled={this.props.disabled}
-                      ref="description"
-                      onChange={this.change.bind(this)}
-                      rows={this.props.rows}
-                      value={value}
-                      placeholder={this.props.placeholder}></textarea>
-        )
     }
 }
