@@ -2,7 +2,7 @@ import React, { Component /*,PropTypes*/} from 'react'
 import { Redirect, Router, Route } from 'react-router'
 import {page} from 'gfs-react-dm'
 import History from 'history/lib/createHashHistory'
-import TestContainer from './Test'
+import TestContainer from '../components/test/Test'
 import Index from '../components/trade/Index'
 
 class AppConfigRouter extends Component {

@@ -1,6 +1,12 @@
+//import devLog from 'dev-pretty-log'
+import {MathUtil} from '../utils/utils'
+
 export default class ActionControl {
-    static consoleLog(){
-        window.console.log(1111111111)
-        return this.update('books', 'aaaa')
+    static setValueByReducers(valueLink, val){
+        let arr = valueLink.split('.')
+        arr.splice(0, 1)
+        valueLink = MathUtil.match(MathUtil.REGS.subStringByFirstPoint, valueLink)
+        window.console.log('valueLink', valueLink.substring(1, valueLink.length-1))
+        return this.update(valueLink.substring(1, valueLink.length-1), val)
     }
 }

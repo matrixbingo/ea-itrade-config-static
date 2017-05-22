@@ -1,60 +1,73 @@
-import _ from "underscore";
-import $ from "jquery";
+import _ from 'underscore'
+import $ from 'jquery'
 
 /**
  * 对数据操作的公共方法
  */
-export let DataUtil = DataUtil || {};
-export let FormUtil = FormUtil || {};
+export let DataUtil = DataUtil || {}
+export let FormUtil = FormUtil || {}
+export let FrwkUtil = FrwkUtil || {}
+export let MathUtil = FrwkUtil || {}
+
+MathUtil.REGS = {
+    /**
+     * 截取第一个点号之后的所有内容
+     * 127.0.0.1 ==> 0.0.1
+     */
+    'subStringByFirstPoint': /\.(.+?)$/
+}
+MathUtil.match = function (reg, str) {
+    return str.match(reg)
+}
 
 export function merge(arr) {
-    let rs = {};
+    let rs = {}
     for (var i in arr) {
-        rs = _.extend(rs, arr[i].param);
+        rs = _.extend(rs, arr[i].param)
     }
-    return rs;
-};
+    return rs
+}
 
 export function stroes(arr) {
-    let rs = {};
+    let rs = {}
     for (var i in arr) {
-        rs = _.extend(rs, arr[i].stroes);
+        rs = _.extend(rs, arr[i].stroes)
     }
-    return rs;
+    return rs
 };
 
-export function getValueBylinkedState(config, valueLink) {
-    if (config == undefined || valueLink == undefined) {
-        return '';
+export function getValueBylinkedState(model, valueLink) {
+    if (model == undefined || valueLink == undefined) {
+        return ''
     }
-    let val = '';
-    let rs;
+    let val = ''
+    let rs
     try {
         if (valueLink.indexOf('.') > -1) {
-            let keys = valueLink.split('.');
+            let keys = valueLink.split('.')
             for (var i in keys) {
                 if (i == 0) {
-                    rs = config.get(keys[i]);
+                    rs = model.get(keys[i])
                 } else if (i > 0) {
-                    rs = rs.get(keys[i]);
+                    rs = rs.get(keys[i])
                 }
             }
-            val = rs;
+            val = rs
         } else {
-            val = config.get(valueLink);
+            val = model.get(valueLink)
         }
     } catch (e) {
-        console.error('getValueBylinkedState', valueLink, rs, e);
+        console.error('getValueBylinkedState', valueLink, rs, e)
     }
 
-    return val;
+    return val
 }
 
 export function trim(str) {
     if (str != null && typeof(str) != 'undefined' && str.length > 0) {
-        return str.replace(/(^\s*)|(\s*$)/g, "");
+        return str.replace(/(^\s*)|(\s*$)/g, "")
     }
-    return str;
+    return str
 }
 
 /**
@@ -62,21 +75,21 @@ export function trim(str) {
  */
 export function getLocalStorageData(storageCode, defaultData) {
     if (localStorage) {
-        var result = {};
-        var data = localStorage.getItem(storageCode);
+        var result = {}
+        var data = localStorage.getItem(storageCode)
         if (data) {
-            result = JSON.parse(data);
+            result = JSON.parse(data)
         } else {
             if (defaultData) {
-                return defaultData;
+                return defaultData
             }
         }
         if (result) {
-            return result;
+            return result
         }
     }
-    return null;
-};
+    return null
+}
 
 /**
  * 重新设置缓存中的数据
@@ -84,220 +97,245 @@ export function getLocalStorageData(storageCode, defaultData) {
  */
 export function setLocalStorageData(storageData, storageCode) {
     if (localStorage) {
-        localStorage.removeItem(storageCode);
-        localStorage.setItem(storageCode, JSON.stringify(storageData));
+        localStorage.removeItem(storageCode)
+        localStorage.setItem(storageCode, JSON.stringify(storageData))
     }
-};
+}
 
 export function getInputVal(_this, refKey) {
-    const val = trim(findDOMNode(_this.refs[refKey]).querySelector('input').value);
-    return val;
+    const val = trim(findDOMNode(_this.refs[refKey]).querySelector('input').value)
+    return val
 }
 
 export function getUrls() {
-    var aQuery = window.location.href.split("?");
-    var aGET = {};
+    var aQuery = window.location.href.split('?')
+    var aGET = {}
     if (aQuery.length > 1) {
-        var aBuf = aQuery[1].split("&");
+        var aBuf = aQuery[1].split('&')
         for (var i = 0, iLoop = aBuf.length; i < iLoop; i++) {
-            var aTmp = aBuf[i].split("=");
-            aGET[aTmp[0]] = aTmp[1];
+            var aTmp = aBuf[i].split('=')
+            aGET[aTmp[0]] = aTmp[1]
         }
     }
-    return aGET;
-};
+    return aGET
+}
 
 export function initParams(data) {
     if (!data) {
-        return '';
+        return ''
     }
-    var arr = [];
+    var arr = []
     for (var item in data) {
-        arr.push('&' + item + '=');
-        arr.push(data[item]);
+        arr.push('&' + item + '=')
+        arr.push(data[item])
     }
     if (arr.length == 0) {
-        return '';
+        return ''
     }
-    var str = arr.join('');
-    return '?' + str.substring(1, str.length);
-};
+    var str = arr.join('')
+    return '?' + str.substring(1, str.length)
+}
 
 export function getFirstTypeId(typeIds) {
     if (typeIds && typeIds.indexOf(',') == -1) {
         return typeIds
     } else {
-        typeIds = typeIds.split(',');
-        return typeIds[0];
+        typeIds = typeIds.split(',')
+        return typeIds[0]
     }
-};
+}
 
 export function updateTable(table, item) {
-    let rs = [];
+    let rs = []
     for (var i in table) {
         if (table[i].id == item.id) {
-            rs.push(item);
+            rs.push(item)
         } else {
-            rs.push(table[i]);
+            rs.push(table[i])
         }
     }
-    return rs;
-};
+    return rs
+}
 
 export function deteleTable(table, item) {
-    let rs = [];
+    let rs = []
     for (var i in table) {
         if (table[i].id == item.id) {
-            item.status = 0;
-            rs.push(item);
+            item.status = 0
+            rs.push(item)
         } else {
-            rs.push(table[i]);
+            rs.push(table[i])
         }
     }
-    return rs;
-};
+    return rs
+}
 
 export function isInt(num) {
-    var reg = /^[1-9]*[1-9][0-9]*$/;
-    return reg.test(num);
+    var reg = /^[1-9]*[1-9][0-9]*$/
+    return reg.test(num)
 }
 
 export function getInt(val) {
     if (val == '0' || val == 0) {
-        return val;
+        return val
     }
     if (!isInt(val)) {
-        val = getInt(val.substring(0, val.length - 1));
+        val = getInt(val.substring(0, val.length - 1))
     }
-    return val;
+    return val
 }
 
 export function isFloat(num) {
-    var reg = new RegExp('^(([0-9]+\.[0-9]*[1-9][0-9]*)|([0-9]*[1-9][0-9]*\.[0-9]+)|([0-9]*[1-9][0-9]*))$'); //正浮点数
+    var reg = new RegExp('^(([0-9]+\.[0-9]*[1-9][0-9]*)|([0-9]*[1-9][0-9]*\.[0-9]+)|([0-9]*[1-9][0-9]*))$') //正浮点数
     if (reg.test(num)) {
-        return true;
+        return true
     }
-    return false;
+    return false
 }
 
 export function getFloat(val) {
     if (val == '0.' || val == 0) {
-        return val;
+        return val
     }
     if (!isFloat(val)) {
-        val = getFloat(val.substring(0, val.length - 1));
+        val = getFloat(val.substring(0, val.length - 1))
     }
-    return val;
+    return val
 }
 
 export function getLength(val, length) {
     if (val && val.length > length) {
-        return val.substring(0, length);
+        return val.substring(0, length)
     }
-    return val;
+    return val
 }
 
 export function getItemByTypeId(data, key, typeId) {
     for (var i in data) {
-        var item = data[i];
+        var item = data[i]
         if (item[key] == typeId) {
             return item
         }
         if (item && item.children && item.children.length > 0) {
-            var _item = getItemByTypeId(item.children, key, typeId);
+            var _item = getItemByTypeId(item.children, key, typeId)
             if (_item != null) {
-                return _item;
+                return _item
             }
         }
     }
-    return null;
+    return null
 }
 
 export function getUerByRef(_this, refName) {
-    let data = _this.refs[refName] ? _this.refs[refName].formData : null;
+    let data = _this.refs[refName] ? _this.refs[refName].formData : null
     if (data && data.userId) {
-        return data;
+        return data
     }
-    return '';
+    return ''
 }
 
 export function filterByKey(data, key) {
-    let rs = [];
+    let rs = []
     for (var i in data) {
-        rs.push(data[i][key]);
+        rs.push(data[i][key])
     }
-    return rs;
+    return rs
 }
 
 export function difference(array, others) {
-    return _.difference(array, others);
+    return _.difference(array, others)
 }
 
 export function isEqual(object, other) {
-    return _.isEqual(object, other);
+    return _.isEqual(object, other)
 }
 
 export function union(object) {
     return _.sortBy(object, function (num) {
-        return parseInt(num);
-    });
+        return parseInt(num)
+    })
 }
 
 export function arrToIntArr(object) {
-    var rs = [];
+    var rs = []
     for (var i in object) {
         rs.push(parseInt(object[i]))
     }
-    return rs;
+    return rs
 }
 
 
 export function isExis(arr, item) {
-    return _.indexOf(arr, item) > -1;
+    return _.indexOf(arr, item) > -1
 }
 
 export function checkTypeIds(typeIds, type_xuId, oTypeIds) {
     if (type_xuId != undefined && type_xuId != '' && typeIds.indexOf(',') > -1) {
-        const arr = typeIds.split(',');
+        const arr = typeIds.split(',')
         if (arr.length == 2) {
-            type_xuId = arr[1];
+            type_xuId = arr[1]
         } else {
             if (type_xuId == arr[0] && oTypeIds == typeIds) {
-                type_xuId = '';
+                type_xuId = ''
             } else if (type_xuId == arr[0] && oTypeIds != typeIds) {
-                let _arr = oTypeIds.split(',');
+                let _arr = oTypeIds.split(',')
                 if (union(_arr).join(',') == union(arr).join(',')) {
-                    type_xuId = '';
+                    type_xuId = ''
                 } else {
-                    _arr.shift();
+                    _arr.shift()
                     if (_arr.join(',') == arr.join(',')) {
-                        type_xuId = '';
+                        type_xuId = ''
                     } else {
-                        type_xuId = arr[1];
+                        type_xuId = arr[1]
                     }
                 }
             }
         }
     } else {
-        type_xuId = getFirstTypeId(typeIds);
+        type_xuId = getFirstTypeId(typeIds)
     }
-    return type_xuId;
+    return type_xuId
 }
 
 export function getTimeStamp() {
-    return new Date().getTime();
+    return new Date().getTime()
 }
 
 /**
  * 检测各种具体是对象类型
  */
-DataUtil.is = {types: ["Array", "Boolean", "Date", "Number", "Object", "RegExp", "String", "Window", "HTMLDocument"]}
+DataUtil.is = {types: ['Array', 'Boolean', 'Date', 'Number', 'Object', 'RegExp', 'String', 'Window', 'HTMLDocument']}
 for (var i = 0, c; c = DataUtil.is.types[i++];) {
     DataUtil.is[c] = (function (type) {
         return function (obj) {
-            return Object.prototype.toString.call(obj) == "[object " + type + "]";
+            return Object.prototype.toString.call(obj) == '[object ' + type + ']'
         }
-    })(c);
+    })(c)
+}
+
+FrwkUtil.getValueBylinkedState = function(model, keys) {
+    if (!model|| !keys) {
+        return ''
+    }
+    let val = '', rs = []
+    try {
+        if (keys.length > 1) {
+            for (var i in keys) {
+                if (i == 0) {
+                    rs = model.get(keys[i])
+                } else if (i > 0) {
+                    rs = rs.get(keys[i])
+                }
+            }
+            val = rs
+        } else {
+            val = model.get(keys[0])
+        }
+    } catch (e) {
+        console.error('getValueBylinkedState', keys.join(), rs, e)
+    }
+    console.log('val', val)
+    return val
 }
 
 DataUtil.format = {
@@ -320,36 +358,36 @@ DataUtil.format = {
      *=======================================================
      */
     currency: function (num, precision, separator) {
-        var parts;
+        var parts
         // 判断是否为数字
         if (!isNaN(parseFloat(num)) && isFinite(num)) {
             // 把类似 .5, 5. 之类的数据转化成0.5, 5, 为数据精度处理做准, 至于为什么
             // 不在判断中直接写 if (!isNaN(num = parseFloat(num)) && isFinite(num))
             // 是因为parseFloat有一个奇怪的精度问题, 比如 parseFloat(12312312.1234567119)
             // 的值变成了 12312312.123456713
-            num = Number(num);
+            num = Number(num)
             // 处理小数点位数
-            num = (typeof precision !== 'undefined' ? num.toFixed(precision) : num).toString();
+            num = (typeof precision !== 'undefined' ? num.toFixed(precision) : num).toString()
             // 分离数字的小数部分和整数部分
-            parts = num.split('.');
+            parts = num.split('.')
             // 整数部分加[separator]分隔, 借用一个著名的正则表达式
-            parts[0] = parts[0].toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1' + (separator || ','));
+            parts[0] = parts[0].toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1' + (separator || ','))
 
-            return parts.join('.');
+            return parts.join('.')
         }
-        return '';
+        return ''
     }
 }
 
 DataUtil.isEqual = function (object, other) {
-    let _object = {}, _other = {};
+    let _object = {}, _other = {}
     if (DataUtil.is.Array(object)) {
-        _object = [];
-        _other = [];
+        _object = []
+        _other = []
     }
-    Object.assign(_object, object);
-    Object.assign(_other, other);
-    return _.isEqual(DataUtil.jsonStr(_object), DataUtil.jsonStr(_other));
+    Object.assign(_object, object)
+    Object.assign(_other, other)
+    return _.isEqual(DataUtil.jsonStr(_object), DataUtil.jsonStr(_other))
 }
 
 /**
@@ -359,33 +397,32 @@ DataUtil.isEqual = function (object, other) {
  * @returns {{}}
  */
 DataUtil.transfor = function (json, data) {
-    let rs = {};
-    let item;
+    let rs = {}
+    let item
     for (var key in json) {
-        item = data[key];
+        item = data[key]
         if (item || this.is.Boolean(item) || !DataUtil.validate.empty(item) || !DataUtil.validate.zero(item)) {
-            rs[key] = item;
+            rs[key] = item
         } else {
-            rs[key] = json[key];
-            debugger;
-            console.warn('transfor:', data, '不含有:' + key + '被替换');
+            rs[key] = json[key]
+            console.warn('transfor:', data, '不含有:' + key + '被替换')
         }
     }
-    return rs;
+    return rs
 }
 
 DataUtil.cleanJson = function (json) {
-    let rs = {};
-    let item;
+    let rs = {}
+    let item
     for (var key in json) {
-        item = json[key];
+        item = json[key]
         if (DataUtil.is.String(item)) {
-            rs[key] = '';
+            rs[key] = ''
         } else {
-            rs[key] = 0;
+            rs[key] = 0
         }
     }
-    return rs;
+    return rs
 }
 
 DataUtil.validate = {
