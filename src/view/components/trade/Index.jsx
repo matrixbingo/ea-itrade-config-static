@@ -1,6 +1,7 @@
 import React, { Component /*,PropTypes*/} from 'react'
 import {View} from 'gfs-react-dm'
-import {TextArea} from '../utils/index.jsx'
+//import {TextArea} from '../utils/index.jsx'
+import TextArea from '../utils/textarea/TextArea'
 import TestControl from '../../../controller/TestControl'
 import BaseControl from '../../../controller/BaseControl'
 import {Grid,Row,Col} from 'eagle-ui'
@@ -15,8 +16,11 @@ export default class Index extends Component {
         return (
             <Grid fluid>
                 <Row>
-                    <TextArea {...this.props} valueLink="BaseModel.textArea.value"/>
-                    {this.props['basemodel'].get('textArea').get('value')}
+                    <TextArea />
+                </Row>
+                <Row>
+                    {/*<TextArea {...this.props} valueLink="BaseModel.textArea.value"/>
+                    {this.props['basemodel'].get('textArea').get('value')}*/}
                 </Row>
                 <Row>
                     {this.props['basemodel'].get('books')}
