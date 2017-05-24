@@ -6,4 +6,8 @@ export default class ActionControl {
         valueLink = DataUtil.StringUtils.subStringByFirstPoint(valueLink)
         return this.update(valueLink, val)
     }
+    static getValueByReducers(valueLink){
+        this.__modelName
+        return this.find(valueLink)
+    }
 }

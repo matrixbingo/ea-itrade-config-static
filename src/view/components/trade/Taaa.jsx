@@ -1,22 +1,26 @@
 import React, { Component /*,PropTypes*/} from 'react'
 import {View} from 'ea-react-dm'
 //import {TextArea} from '../utils/index.jsx'
+import {Head} from 'ea-head'
 import TextArea from '../utils/textarea/TextArea'
 import TestControl from '../../../controller/TestControl'
 import BaseControl from '../../../controller/BaseControl'
 import {Grid,Row,Col} from 'eagle-ui'
 
 @View([TestControl,BaseControl])
-export default class Index extends Component {
+export default class Taaa extends Component {
     constructor(props) {
         super(props)
-        const val = this.props.getValueByReducers('BaseModel.textArea.value')
-        window.console.log('val----->', val)
     }
 
     render(){
+        const logo = {
+            className: 'null',
+            title: 'EA'
+        }
         return (
             <Grid fluid>
+                <Head logo={logo} />
                 <Row>
                     <TextArea />
                 </Row>

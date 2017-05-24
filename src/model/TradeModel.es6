@@ -1,4 +1,4 @@
-import {Model} from 'gfs-react-dm'
+import {Model} from 'ea-react-dm'
 
 @Model
 export default class BaseModel {

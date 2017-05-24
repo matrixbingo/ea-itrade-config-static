@@ -1,4 +1,4 @@
-import {Model} from 'gfs-react-dm'
+import {Model} from 'ea-react-dm'
 
 @Model
 export default class BaseModel {
@@ -6,7 +6,7 @@ export default class BaseModel {
     static __name = 'base'
     static version = '1.0.0'
     static textArea = {
-        value:''
+        value:'121212'
     }
     static books = ''
 }

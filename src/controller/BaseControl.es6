@@ -1,4 +1,4 @@
-import {Control} from 'gfs-react-dm'
+import {Control} from 'ea-react-dm'
 import BaseModel from '../model/BaseModel'
 import ActionControl from './ActionControl'
 

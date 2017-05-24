@@ -1,4 +1,4 @@
-import {Control,fetch} from 'gfs-react-dm'
+import {Control,fetch} from 'ea-react-dm'
 import TradeModel from '../model/TradeModel'
 
 @Control(TradeModel)

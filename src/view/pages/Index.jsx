@@ -1,9 +1,11 @@
 import React, {Component /*,PropTypes*/} from 'react'
 import {Redirect, Router, Route} from 'react-router'
-import {page} from 'gfs-react-dm'
+import {page} from 'ea-react-dm'
 import History from 'history/lib/createHashHistory'
 import Index from '@component/trade/Index'
 import Test from '@component/test/Test'
+import Test001 from '@component/test/Test001'
+//import Taaa from '@component/trade/Taaa'
 
 class AppRouter extends Component {
 
@@ -22,9 +24,10 @@ class AppRouter extends Component {
         return (
             <div>
                 <Router history={this.history}>
-                    <Route path="/index" component={Index}/>
                     <Route path="/test" component={Test}/>
-                    <Redirect from="/" to="/index"/>
+                    <Route path="/index" component={Index}/>
+                    <Route path="/ta" component={Test001}/>
+                    <Redirect from="/" to="/test"/>
                 </Router>
             </div>
         )

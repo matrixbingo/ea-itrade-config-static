@@ -22,7 +22,7 @@
     "eagle-ui": "^4.0.0",
     "es5-shim": "^4.5.9",
     "extend": "^3.0.0",
-    "gfs-react-dm": "^1.0.7",
+    "ea-react-dm": "^1.0.9",
     "history": "^1.13.1",
     "jquery": "^3.0.0",
     "lodash": "^3.10.1",
@@ -95,6 +95,6 @@
   "bugs": {
     "url": "http:///issues"
   },
-  "homepage": "http://",
+  "homepage": "https://github.com/matrixbingo/ea-itrade-config-static",
   "license": "MIT"
 }
