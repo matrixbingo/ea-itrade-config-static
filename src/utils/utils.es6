@@ -71,7 +71,6 @@ export function getValueBylinkedState(model, valueLink) {
     } catch (e) {
         console.error('getValueBylinkedState', valueLink, rs, e)
     }
-
     return val
 }
 

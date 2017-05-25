@@ -1,7 +1,6 @@
 import React, { Component /*,PropTypes*/} from 'react'
 import {View} from 'ea-react-dm'
 import {Head,Footer} from 'ea-head'
-import {Grid,Row,Col} from 'eagle-ui'
 import TestControl from '../../../controller/TestControl'
 import BookList from './BookList'
 import '../../styles/test.less'
@@ -22,14 +21,7 @@ export default class Test extends Component{
             <div>
                 <Head logo={logo} />
                 <BookList {...this.props} />
-                <Footer />
-                <Grid fluid>
-                    <Row>
-                        <Col>
-                            <a className="eg-btn button" href="#ta">跳转11</a>
-                        </Col>
-                    </Row>
-                </Grid>
+                <Footer content=''/>
             </div>
         )
     }
