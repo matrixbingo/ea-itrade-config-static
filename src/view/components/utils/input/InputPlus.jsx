@@ -47,7 +47,7 @@ export default class InputPlus extends Component {
         if (key) {
             this.manualChange(key, Immutable.fromJS(value));
         } else {
-            console.error('setValueByReducers error', key, value);
+            window.console.error('setValueByReducers error', key, value);
         }
     }
 
@@ -56,7 +56,7 @@ export default class InputPlus extends Component {
             const {config} = this.props
             return getValueBylinkedState(config, key)
         } else {
-            console.error('getValueByReducers error', key, value)
+            window.console.error('getValueByReducers error', key, value)
         }
     }
 
@@ -83,9 +83,12 @@ export default class InputPlus extends Component {
     change(e) {
         let val = trim(e.target.value)
         val = this.validData(val)
-        this.setValueByReducers(this.props.valueLink, val)
+        if (this.props.setValueByReducers && this.props.valueLink) {
+            this.props.setValueByReducers(this.props.valueLink, val)
+        } else {
+            window.console.warn('TextArea miss setValueByReducers')
+        }
         this.props.onChangeCallback && this.props.onChangeCallback(this, val)
-        //console.log('change', val);
     }
 
     onblur(e) {
