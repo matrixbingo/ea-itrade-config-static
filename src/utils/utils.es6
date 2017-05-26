@@ -6,7 +6,6 @@ import $ from 'jquery'
  */
 export let DataUtil = DataUtil || {}
 export let FormUtil = FormUtil || {}
-export let FrwkUtil = FrwkUtil || {}
 export let MathUtil = MathUtil || {}
 
 MathUtil.REGS = {
@@ -32,21 +31,22 @@ DataUtil.StringUtils = {
     }
 }
 
-export function merge(arr) {
-    let rs = {}
-    for (var i in arr) {
-        rs = _.extend(rs, arr[i].param)
+DataUtil.objUtils = {
+    merge:function (arr) {
+        let rs = {}
+        for (var i in arr) {
+            rs = _.extend(rs, arr[i].param)
+        }
+        return rs
+    },
+    stroes:function (arr) {
+        let rs = {}
+        for (var i in arr) {
+            rs = _.extend(rs, arr[i].stroes)
+        }
+        return rs
     }
-    return rs
 }
-
-export function stroes(arr) {
-    let rs = {}
-    for (var i in arr) {
-        rs = _.extend(rs, arr[i].stroes)
-    }
-    return rs
-};
 
 export function getValueBylinkedState(model, valueLink) {
     if (model == undefined || valueLink == undefined) {
@@ -317,34 +317,6 @@ for (var i = 0, c; c = DataUtil.is.types[i++];) {
     })(c)
 }
 
-FrwkUtil.store = {
-    getValueBylinkedState: function (props, valueLink) {
-        let keys = valueLink.split('.')
-        const modelName = keys.shift()
-        const model = props[modelName.toLowerCase()]
-        if (!model || !keys) {
-            return ''
-        }
-        let val = '', rs = []
-        try {
-            if (keys.length > 1) {
-                for (var i in keys) {
-                    if (i == 0) {
-                        rs = model.get(keys[i])
-                    } else if (i > 0) {
-                        rs = rs.get(keys[i])
-                    }
-                }
-                val = rs
-            } else {
-                val = model.get(keys[0])
-            }
-        } catch (e) {
-            console.error('FrwkUtil.store.getValueBylinkedState', keys.join(), rs, e)
-        }
-        return val
-    }
-}
 
 DataUtil.format = {
     /**

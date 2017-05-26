@@ -2,7 +2,7 @@
  * Created by liang.wang on 16/9/29.
  */
 import React, {Component, PropTypes} from 'react'
-import {FrwkUtil} from '../../../../utils/utils.es6'
+import {FrwkUtil} from '../util/util.es6'
 import './TextArea.less'
 
 export default class TextArea extends Component {

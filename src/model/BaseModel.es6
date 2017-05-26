@@ -6,7 +6,7 @@ export default class BaseModel {
     static __name = 'base'
     static version = '1.0.0'
     static textArea = {
-        value:'121212'
+        value:'22222222'
     }
     static books = ''
 }

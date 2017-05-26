@@ -6,6 +6,4 @@ export default class ActionControl {
         valueLink = DataUtil.StringUtils.subStringByFirstPoint(valueLink)
         return this.update(valueLink, val)
     }
-
-
 }

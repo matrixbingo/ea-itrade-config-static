@@ -1,49 +1,68 @@
 import React, {Component, /*PropTypes*/} from 'react'
+import {FrwkUtil} from '../util/util.es6'
 import './TextArea.less'
 import classNames from 'classnames'
 
 export default class TextArea extends Component {
-    
+
     static defaultProps = {
+        disabled: false,
+        viewOnly: false,
+        valueLink: '',
+        defaultValue: '',
         cols: 30,
         rows: 10,
         maxLength: 200,
         placeholder: '请输入内容',
-        content: '',
-        onChangeCallback: function () {}
+        onChangeCallback: function () {
+        }
     }
+
     constructor(props, context) {
         super(props, context)
         this.state = {
-            content: this.props.content
+            disabled: this.props.disabled,
+            viewOnly: this.props.viewOnly,
+            content: this.props.defaultValue || this.getContent()
         }
     }
 
-    componentWillMount() {
-    }
-
-    componentDidMount() {
+    getContent() {
+        return FrwkUtil.store.getValueBylinkedState(this.props, this.props.valueLink) || ''
     }
 
     componentWillReceiveProps(nextProps) {
-        this.setState({
-            content: nextProps.content
-        })
+        let flag = false
+        if (nextProps.disabled != this.state.disabled || nextProps.viewOnly != this.state.viewOnly || nextProps.content != this.state.content) {
+            flag = true
+        }
+        if (flag) {
+            this.setState({
+                disabled: nextProps.disabled,
+                viewOnly: nextProps.viewOnly
+            })
+        }
     }
-    getContent(){
-        return this.state.content || ''
-    }
+
     onChangeHandler(evt) {
         // 获取
-        let val = (evt.target.value||'')
-        if(val.length > this.props.maxLength ) {
+        let val = (evt.target.value || '')
+        if (val.length > this.props.maxLength) {
             val = val.substr(0, this.props.maxLength)
         }
-        this.setState({
-            content: val
-        })
-        this.props.onChangeCallback && this.props.onChangeCallback.call(evt, val)
+        if(this.state.content != val){
+            this.setState({
+                content: val
+            })
+            if (this.props.setValueByReducers) {
+                this.props.setValueByReducers(this.props.valueLink, val)
+            } else {
+                window.console.warn('TextArea miss setValueByReducers')
+            }
+        }
+        this.props.onChangeCallback && this.props.onChangeCallback.call(evt, val, this)
     }
+
     render() {
         const {maxLength, cols, rows, placeholder} = this.props
         const remain = maxLength - this.state.content.length
@@ -51,13 +70,14 @@ export default class TextArea extends Component {
         const className = classNames((this.props.className || ''), 'q-text-ctn')
         return (
             <div className="q-text-wrap">
-                <textarea {...this.props}
+                <textarea disabled={this.props.disabled}
+                          ref="description"
                           className={className}
                           onChange={this.onChangeHandler.bind(this)}
                           rows={rows}
                           cols={cols}
                           placeholder={placeholder}
-                          value={this.state.content} />
+                          value={this.state.content}/>
                 <p className="q-text-remain">
                     <span className={'num ' + remainColor}><i>{remain}</i>/{maxLength}</span>
                 </p>
