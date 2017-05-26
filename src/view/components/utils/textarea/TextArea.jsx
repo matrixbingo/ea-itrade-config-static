@@ -1,5 +1,5 @@
 import React, {Component, /*PropTypes*/} from 'react'
-import {FrwkUtil} from '../util/util.es6'
+import {FrwkUtil} from '../util/util'
 import './TextArea.less'
 import classNames from 'classnames'
 

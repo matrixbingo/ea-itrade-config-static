@@ -3,6 +3,7 @@
  */
 import React, { Component ,PropTypes} from 'react';
 import {Input} from 'eagle-ui';
+import {FrwkUtil} from '../util/util'
 import {findDOMNode} from 'react-dom';
 import {bindingMixin} from 'eg-tools';
 import Immutable from 'immutable';
@@ -37,10 +38,13 @@ export default class InputPlus extends Component {
         super(props, context);
         this.setBinding('config');
         this.state = {
-            defaultValue:this.props.defaultValue,
+            defaultValue:this.props.defaultValue || ,
             disabled: this.props.disabled,
             viewOnly: this.props.viewOnly
         };
+    }
+    getContent() {
+        return FrwkUtil.store.getValueBylinkedState(this.props, this.props.valueLink) || ''
     }
 
     setValueByReducers(key, value) {
@@ -62,18 +66,11 @@ export default class InputPlus extends Component {
 
     componentWillReceiveProps(props) {
         let flag = false
-        if (props.disabled != this.state.disabled) {
-            flag = true
-        }
-        if (props.viewOnly != this.state.viewOnly) {
-            flag = true
-        }
-        if (props.defaultValue != this.state.defaultValue) {
+        if (props.disabled != this.state.disabled || props.viewOnly != this.state.viewOnly) {
             flag = true
         }
         if(flag){
             this.setState({
-                defaultValue: props.defaultValue,
                 disabled: props.disabled,
                 viewOnly: props.viewOnly
             })
