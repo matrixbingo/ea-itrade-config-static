@@ -1,5 +1,5 @@
 import {Control} from 'ea-react-dm'
-import BaseModel from '../model/BaseModel'
+import BaseModel from '../../model/trade/BaseModel'
 import {Action} from 'ea-react-dm'
 
 @Control(BaseModel)

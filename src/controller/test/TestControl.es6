@@ -1,8 +1,9 @@
 import {Control,fetch} from 'ea-react-dm'
-import TestModel from '../model/TestModel'
+import TestModel from '../../model/test/TestModel'
+import {Action} from 'ea-react-dm'
 
 @Control(TestModel )
-export default class TestControl {
+export default class TestControl extends Action{
 
     static queryBookTypes(){
 

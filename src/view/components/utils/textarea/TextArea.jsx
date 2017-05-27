@@ -1,13 +1,34 @@
-import React, {Component, /*PropTypes*/} from 'react'
-import {FrwkUtil} from '../util/util'
+import React, {Component, PropTypes} from 'react'
+import {FrwkUtil, DataUtil} from '../util/Index'
 import './TextArea.less'
 import classNames from 'classnames'
 
 export default class TextArea extends Component {
-
+    static propTypes = {
+        /**
+         * 是否只读
+         */
+        viewOnly:PropTypes.bool,
+        /**
+         * 是否disabled
+         */
+        disabled:PropTypes.bool,
+        /**
+         * value链接
+         */
+        valueLink:PropTypes.string.isRequired,
+        /**
+         * 初始化数值
+         */
+        defaultValue:PropTypes.string.isRequired
+    }
+    /**
+     * @type {{disabled: boolean, viewOnly: boolean, valueLink: string, defaultValue: string, cols: number, rows: number, maxLength: number, placeholder: string, onChangeCallback: TextArea.defaultProps.onChangeCallback}}
+     * 优先级 viewOnly ---> disabled
+     */
     static defaultProps = {
-        disabled: false,
         viewOnly: false,
+        disabled: false,
         valueLink: '',
         defaultValue: '',
         cols: 30,
@@ -32,11 +53,7 @@ export default class TextArea extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        let flag = false
         if (nextProps.disabled != this.state.disabled || nextProps.viewOnly != this.state.viewOnly || nextProps.content != this.state.content) {
-            flag = true
-        }
-        if (flag) {
             this.setState({
                 disabled: nextProps.disabled,
                 viewOnly: nextProps.viewOnly
@@ -46,7 +63,7 @@ export default class TextArea extends Component {
 
     onChangeHandler(evt) {
         // 获取
-        let val = (evt.target.value || '')
+        let val = DataUtil.StringUtils.trim(evt.target.value) || ''
         if (val.length > this.props.maxLength) {
             val = val.substr(0, this.props.maxLength)
         }

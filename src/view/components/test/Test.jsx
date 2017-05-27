@@ -1,11 +1,13 @@
 import React, { Component /*,PropTypes*/} from 'react'
 import {View} from 'ea-react-dm'
 import {Head,Footer} from 'ea-head'
-import TestControl from '../../../controller/TestControl'
+import {Grid,Row,Col} from 'eagle-ui'
+import TestControl from '../../../controller/test/TestControl'
+import BaseControl from '../../../controller/trade/BaseControl'
 import BookList from './BookList'
 import '../../styles/test.less'
 
-@View(TestControl)
+@View([TestControl, BaseControl])
 export default class Test extends Component{
     constructor(props){
         super(props)
@@ -21,14 +23,15 @@ export default class Test extends Component{
             <div>
                 <Head logo={logo} />
                 <BookList {...this.props} />
-                <Footer content=''/>
+                <Footer />
+                <Grid fluid>
+                    <Row>
+                        <Col>
+                            <a className="eg-btn button" href="#ta">跳转</a>
+                        </Col>
+                    </Row>
+                </Grid>
             </div>
         )
     }
 }
-
-/*let url = window.location.hash
-if(url.match('#/')==null && window.location.href.match('index')==null ){
-    //alert(121212);
-    page(Test)
-}*/

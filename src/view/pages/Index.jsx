@@ -4,7 +4,7 @@ import {page} from 'ea-react-dm'
 import History from 'history/lib/createHashHistory'
 import Index from '@component/trade/Index'
 import Test from '@component/test/Test'
-import Test001 from '@component/test/Test001'
+import TestIndex from '../../view/components/test/utils/Index'
 //import Taaa from '@component/trade/Taaa'
 
 class AppRouter extends Component {
@@ -26,8 +26,8 @@ class AppRouter extends Component {
                 <Router history={this.history}>
                     <Route path="/test" component={Test}/>
                     <Route path="/index" component={Index}/>
-                    <Route path="/ta" component={Test001}/>
-                    <Redirect from="/" to="/test"/>
+                    <Route path="/testIndex" component={TestIndex}/>
+                    <Redirect from="/" to="/testIndex"/>
                 </Router>
             </div>
         )

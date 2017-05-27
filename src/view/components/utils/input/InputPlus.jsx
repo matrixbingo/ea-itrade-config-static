@@ -1,26 +1,42 @@
 /**
  * Created by liang.wang on 16/9/29.
  */
-import React, { Component ,PropTypes} from 'react';
-import {Input} from 'eagle-ui';
-import {FrwkUtil} from '../util/util'
-import {findDOMNode} from 'react-dom';
-import {bindingMixin} from 'eg-tools';
-import Immutable from 'immutable';
-import {getValueBylinkedState, trim, getFloat, getLength, getInt} from '../../../utils/utils.es6';
-import './InputPlus.less';
+import React, {Component, PropTypes} from 'react'
+import {Input} from 'eagle-ui'
+import {findDOMNode} from 'react-dom'
+import {FrwkUtil, DataUtil} from '../util/Index'
+import './InputPlus.less'
 
 export default class InputPlus extends Component {
     static propTypes = {
-        valueLink:  PropTypes.string.isRequired
+        /**
+         * 是否只读
+         */
+        viewOnly: PropTypes.bool,
+        /**
+         * 是否disabled
+         */
+        disabled: PropTypes.bool,
+        /**
+         * value链接
+         */
+        valueLink: PropTypes.string.isRequired,
+        /**
+         * 初始化数值
+         */
+        defaultValue: PropTypes.string.isRequired
     }
+    /**
+     * @type {{viewOnly: boolean, span: boolean, disabled: boolean, className: string, placeholder: string, valueLink: string, defaultValue: string, validRules: {isInt: boolean, isFloat: boolean, maxLength: null}, style: {}, onChangeCallback: InputPlus.defaultProps.onChangeCallback, onBlurCallback: InputPlus.defaultProps.onBlurCallback}}
+     * 优先级 优先级 viewOnly（span） ---> disabled
+     */
     static defaultProps = {
-        modelName: '',
-        disabled: false,
         viewOnly: false,
-        span:false,
+        span: false,
+        disabled: false,
         className: 'f14 font',
         placeholder: '',
+        valueLink: '',
         defaultValue: '',
         validRules: {
             isInt: false,
@@ -35,41 +51,39 @@ export default class InputPlus extends Component {
     }
 
     constructor(props, context) {
-        super(props, context);
-        this.setBinding('config');
+        super(props, context)
         this.state = {
-            defaultValue:this.props.defaultValue || ,
             disabled: this.props.disabled,
-            viewOnly: this.props.viewOnly
-        };
+            viewOnly: this.props.viewOnly,
+            content: this.props.defaultValue || this.getContent()
+        }
     }
+
     getContent() {
         return FrwkUtil.store.getValueBylinkedState(this.props, this.props.valueLink) || ''
     }
 
-    setValueByReducers(key, value) {
-        if (key) {
-            this.manualChange(key, Immutable.fromJS(value));
-        } else {
-            window.console.error('setValueByReducers error', key, value);
-        }
-    }
-
-    getValueByReducers(key) {
-        if (key) {
-            const {config} = this.props
-            return getValueBylinkedState(config, key)
-        } else {
-            window.console.error('getValueByReducers error', key, value)
-        }
-    }
+    /*
+     setValueByReducers(key, value) {
+     if (key) {
+     this.manualChange(key, Immutable.fromJS(value))
+     } else {
+     window.console.error('setValueByReducers error', key, value)
+     }
+     }
+     */
+    /*
+     getValueByReducers(key) {
+     if (key) {
+     const {config} = this.props
+     return getValueBylinkedState(config, key)
+     } else {
+     window.console.error('getValueByReducers error', key, value)
+     }
+     }*/
 
     componentWillReceiveProps(props) {
-        let flag = false
         if (props.disabled != this.state.disabled || props.viewOnly != this.state.viewOnly) {
-            flag = true
-        }
-        if(flag){
             this.setState({
                 disabled: props.disabled,
                 viewOnly: props.viewOnly
@@ -77,43 +91,64 @@ export default class InputPlus extends Component {
         }
     }
 
-    change(e) {
-        let val = trim(e.target.value)
+    change(val){
         val = this.validData(val)
-        if (this.props.setValueByReducers && this.props.valueLink) {
-            this.props.setValueByReducers(this.props.valueLink, val)
-        } else {
-            window.console.warn('TextArea miss setValueByReducers')
+        if (this.state.content != val) {
+            this.setState({
+                content: val
+            })
+            if (this.props.setValueByReducers && this.props.valueLink) {
+                this.props.setValueByReducers(this.props.valueLink, val)
+            } else {
+                window.console.warn('InputPlus miss setValueByReducers')
+            }
         }
+    }
+    onChangeHandler(e) {
+        let val = DataUtil.StringUtils.trim(e.target.value) || ''
+        this.change(val)
         this.props.onChangeCallback && this.props.onChangeCallback(this, val)
     }
-
-    onblur(e) {
-        let val = trim(e.target.value)
-        val = this.defaultValue(val)
-        this.setValueByReducers(this.props.valueLink, val)
+    onblurHandler(e) {
+        let val = DataUtil.StringUtils.trim(e.target.value) || ''
+        this.change(val)
         this.props.onBlurCallback && this.props.onBlurCallback(this, val)
     }
 
     validData(val) {
         if (this.props.validRules.maxLength) {
-            val = getLength(val, this.props.validRules.maxLength)
+            val = DataUtil.StringUtils.getLength(val, this.props.validRules.maxLength)
         }
         if (this.props.validRules.isInt) {
-            val = getInt(val)
+            val = DataUtil.StringUtils.getInt(val)
         }
         if (this.props.validRules.isFloat) {
-            val = getFloat(val)
+            val = DataUtil.StringUtils.getFloat(val)
         }
         return val
     }
 
-    defaultValue(val) {
-        if (this.props.defaultValue && val == '') {
-            val = this.props.defaultValue;
-        }
-        return val
-    }
+    /*    defaultValue(val) {
+     if (this.props.defaultValue && val == '') {
+     val = this.props.defaultValue
+     }
+     return val
+     }
+
+     getDefaultValue() {
+     if (this.state.defaultValue) {
+     return this.state.defaultValue
+     }
+     let val = this.getValueByReducers(this.props.valueLink);
+     if (this.state.disabled || this.state.viewOnly) {
+     if (val) {
+     return val
+     }
+     } else {
+     return val
+     }
+     return this.props.placeholder
+     }*/
 
     setDisabled(ref, is) {
         this.input = ref
@@ -123,53 +158,43 @@ export default class InputPlus extends Component {
         }
     }
 
-    getDefaultValue(){
-        if(this.state.defaultValue){
-            return this.state.defaultValue
-        }
-        let val = this.getValueByReducers(this.props.valueLink);
-        if(this.state.disabled || this.state.viewOnly){
-            if(val){
-                return val
-            }
-        }else{
-            return val
-        }
-        return this.props.placeholder
-    }
-
     render() {
         const _this = this
-        let val = this.getDefaultValue()
+        //let val = this.getDefaultValue()
         if (this.state.viewOnly) {
-            if(this.props.span){
+            if (this.state.span) {
                 return (
                     <div className="inputPlus">
-                        <span>{val}</span>
+                        <span>{this.state.content}</span>
                     </div>
                 )
             }
             return (
                 <div className="inputPlus">
-                    <Input type="text" value={val}
-                           ref={(ref)=>{_this.setDisabled(ref, true)}}/>
+                    <Input type="text" value={this.state.content}
+                           ref={(ref) => {
+                               _this.setDisabled(ref, true)
+                           }}/>
                 </div>
             )
-        }
-        if (this.state.disabled) {
+        } else if (this.state.disabled) {
             return (
                 <Input disabled={true} style={this.props.style} className={this.props.className} type="text" value=''
-                       placeholder={val}
-                       ref={(ref)=>{_this.setDisabled(ref, true)}}/>
+                       placeholder={this.state.content}
+                       ref={(ref) => {
+                           _this.setDisabled(ref, true)
+                       }}/>
             )
         } else {
             return (
                 <Input style={this.props.style}
-                       className={this.props.className} type="text" value={val}
-                       ref={(ref)=>{_this.setDisabled(ref, false)}}
+                       className={this.props.className} type="text" value={this.state.content}
+                       ref={(ref) => {
+                           _this.setDisabled(ref, false)
+                       }}
                        placeholder={this.props.placeholder}
-                       onChange={::this.change}
-                       onBlur={::this.onblur}/>
+                       onChange={::this.onChangeHandler}
+                       onBlur={::this.onblurHandler}/>
             )
         }
     }

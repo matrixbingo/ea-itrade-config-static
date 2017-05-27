@@ -3,8 +3,8 @@ import {View} from 'ea-react-dm'
 //import {TextArea} from '../utils/index.jsx'
 import {Head} from 'ea-head'
 import TextArea from '../utils/textarea/TextArea'
-import TestControl from '../../../controller/TestControl'
-import BaseControl from '../../../controller/BaseControl'
+import TestControl from '../../../controller/test/TestControl'
+import BaseControl from '../../../controller/trade/BaseControl'
 import {Grid,Row,Col} from 'eagle-ui'
 
 @View([TestControl,BaseControl])
