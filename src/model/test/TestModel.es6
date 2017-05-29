@@ -9,25 +9,62 @@ export default class TestModel {
     static updateIndex = -1
 
     static textArea = {
-        value: 'textArea'
+        value: '1902-212-1212'
     }
     static inputPuls = {
         value: 'inputPlus'
     }
     static radioPlus = {
-        selectId: 0
+        selectId: 1,
+        citys: [
+            {
+                cityId: 1,
+                city: '上海'
+            },
+            {
+                cityId: 2,
+                city: '北京'
+            },
+            {
+                cityId: 3,
+                city: '广东'
+            }
+        ]
     }
-    static citys = [
-        {
-            cityId: 1,
-            city: '上海'
-        },
-        {
-            cityId: 2,
-            city: '北京'
-        }
-    ]
-
+    static selectPlus = {
+        selectId: 2,
+        citys1: [
+            {
+                cityId: 1,
+                city: '上海'
+            },
+            {
+                cityId: 2,
+                city: '北京'
+            },
+            {
+                cityId: 3,
+                city: '广东'
+            }
+        ],
+        citys2: [
+            {
+                cityId: 4,
+                city: '杭州'
+            },
+            {
+                cityId: 5,
+                city: '武汉'
+            },
+            {
+                cityId: 6,
+                city: '三亚'
+            }
+        ]
+    }
+    static calenderPanelPuls = {
+        bin: '1902-11-11'
+    }
     /* static queryBookTypes(data, action){
 
      if(action.data){

@@ -1,5 +1,6 @@
-import React, {Component, PropTypes} from 'react'
-import {FrwkUtil, DataUtil} from '../util/Index'
+import React, {PropTypes} from 'react'
+import Component from '../base/Component'
+import {DataUtil} from '../util/Index'
 import './TextArea.less'
 import classNames from 'classnames'
 
@@ -8,19 +9,19 @@ export default class TextArea extends Component {
         /**
          * 是否只读
          */
-        viewOnly:PropTypes.bool,
+        viewOnly: PropTypes.bool,
         /**
          * 是否disabled
          */
-        disabled:PropTypes.bool,
+        disabled: PropTypes.bool,
         /**
          * value链接
          */
-        valueLink:PropTypes.string.isRequired,
+        valueLink: PropTypes.string.isRequired,
         /**
          * 初始化数值
          */
-        defaultValue:PropTypes.string.isRequired
+        defaultValue: PropTypes.string.isRequired
     }
     /**
      * @type {{disabled: boolean, viewOnly: boolean, valueLink: string, defaultValue: string, cols: number, rows: number, maxLength: number, placeholder: string, onChangeCallback: TextArea.defaultProps.onChangeCallback}}
@@ -42,18 +43,14 @@ export default class TextArea extends Component {
     constructor(props, context) {
         super(props, context)
         this.state = {
-            disabled: this.props.disabled,
-            viewOnly: this.props.viewOnly,
-            content: this.props.defaultValue || this.getContent()
+            disabled: props.disabled,
+            viewOnly: props.viewOnly,
+            content: props.defaultValue || this.getValueByReducers() || ''
         }
     }
 
-    getContent() {
-        return FrwkUtil.store.getValueBylinkedState(this.props, this.props.valueLink) || ''
-    }
-
     componentWillReceiveProps(nextProps) {
-        if (nextProps.disabled != this.state.disabled || nextProps.viewOnly != this.state.viewOnly || nextProps.content != this.state.content) {
+        if (nextProps.disabled != this.props.disabled || nextProps.viewOnly != this.props.viewOnly) {
             this.setState({
                 disabled: nextProps.disabled,
                 viewOnly: nextProps.viewOnly
@@ -62,7 +59,6 @@ export default class TextArea extends Component {
     }
 
     onChangeHandler(evt) {
-        // 获取
         let val = DataUtil.StringUtils.trim(evt.target.value) || ''
         if (val.length > this.props.maxLength) {
             val = val.substr(0, this.props.maxLength)
@@ -71,20 +67,16 @@ export default class TextArea extends Component {
             this.setState({
                 content: val
             })
-            if (this.props.setValueByReducers && this.props.valueLink) {
-                this.props.setValueByReducers(this.props.valueLink, val)
-            } else {
-                window.console.warn('TextArea miss setValueByReducers')
-            }
+            this.setValueByReducers(val)
         }
         this.props.onChangeCallback && this.props.onChangeCallback.call(evt, val, this)
     }
 
     render() {
-        const {maxLength, cols, rows, placeholder} = this.props
+        const {maxLength, cols, rows, placeholder, className} = this.props
         const remain = maxLength - this.state.content.length
         const remainColor = this.state.content.length ? '' : 'default'
-        const className = classNames((this.props.className || ''), 'q-text-ctn')
+        const _className = classNames((className || ''), 'q-text-ctn')
         if (this.state.viewOnly) {
             const height = this.props.rows * 14
             return (
@@ -97,7 +89,7 @@ export default class TextArea extends Component {
                 <div className="q-text-wrap">
                 <textarea disabled={this.state.disabled}
                           ref="description"
-                          className={className}
+                          className={_className}
                           onChange={this.onChangeHandler.bind(this)}
                           rows={rows}
                           cols={cols}

@@ -7,24 +7,6 @@ import $ from 'jquery'
 export let DataUtil = DataUtil || {}
 export let FormUtil = FormUtil || {}
 
-DataUtil.objUtils = {
-    merge:function (arr) {
-        let rs = {}
-        for (var i in arr) {
-            rs = _.extend(rs, arr[i].param)
-        }
-        return rs
-    },
-    stroes:function (arr) {
-        let rs = {}
-        for (var i in arr) {
-            rs = _.extend(rs, arr[i].stroes)
-        }
-        return rs
-    }
-}
-
-
 /**
  * 取的缓存中的数据
  */
@@ -130,10 +112,6 @@ export function filterByKey(data, key) {
 
 export function difference(array, others) {
     return _.difference(array, others)
-}
-
-export function isEqual(object, other) {
-    return _.isEqual(object, other)
 }
 
 export function union(object) {

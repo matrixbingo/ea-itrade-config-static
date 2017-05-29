@@ -1,13 +1,13 @@
 /**
  * Created by liang.wang on 16/10/29.
  */
-import React, {Component, PropTypes} from 'react'
+import React, {PropTypes} from 'react'
+import Component from '../base/Component'
 import {RadioGroup, Input} from 'eagle-ui'
-import {findDOMNode} from 'react-dom'
 import {FrwkUtil, DataUtil} from '../util/Index'
 import './RadioPlus.less'
 import _ from 'underscore'
-//import classNames from 'classnames'
+import classNames from 'classnames'
 
 export default class RadioPlus extends Component {
     static propTypes = {
@@ -35,7 +35,8 @@ export default class RadioPlus extends Component {
     /**
      * @type {{viewOnly: boolean, disabled: boolean, param: {id: string, name: string}, valueLink: string, defaultId: null, defaultName: null, getValueCallback: RadioPlus.defaultProps.getValueCallback}}
      * 优先级 viewOnly ---> disabled
-     *
+     * defaultChecked 优先级 defaultId > defaultName
+     * valueLink <==> id
      */
     static defaultProps = {
         viewOnly: false,
@@ -51,42 +52,30 @@ export default class RadioPlus extends Component {
 
     constructor(props, context) {
         super(props, context)
-        FrwkUtil.ComponentUtils.transform(this)
         this.state = {
             defaultId: FrwkUtil.ComponentUtils.getDefaultId(this),
-            disabled: this.props.disabled,
-            viewOnly: this.props.viewOnly
+            disabled: props.disabled,
+            viewOnly: props.viewOnly,
+            list: FrwkUtil.ComponentUtils.transform(props)
         }
     }
 
-    componentWillReceiveProps(props) {
-        FrwkUtil.ComponentUtils.transform(this)
-        if (props.disabled != this.state.disabled || props.viewOnly != this.state.viewOnly) {
-            this.setState({
-                viewOnly: props.viewOnly,
-                disabled: props.disabled
-            })
+    componentWillReceiveProps(nextProps) {
+        let _state = {}
+        nextProps.viewOnly != this.props.viewOnly && _.extend(_state, {viewOnly: nextProps.viewOnly})
+        nextProps.disabled != this.props.disabled && _.extend(_state, {disabled: nextProps.disabled})
+        nextProps.defaultId != this.props.defaultId && _.extend(_state, {defaultId: nextProps.defaultId})
+        if (!DataUtil.ObjUtils.isEqual(nextProps.list, this.props.list)) {
+            const list = FrwkUtil.ComponentUtils.transform(nextProps)
+            _.extend(_state, {list: list})
         }
-    }
-
-    setValueByReducers(key, value) {
-        if (key && value) {
-            if (value == 'true') {
-                value = true
-            }
-            if (value == 'false') {
-                value = false
-            }
-            this.props.setValueByReducers(this.props.valueLink, value)
-        } else {
-            window.console.error('setValueByReducers error', key, value)
-        }
+        this.setState(_state)
     }
 
     getValueCallback(e) {
-        if (this.state.disabled) {
+        if (this.state.disabled || this.state.viewOnly) {
             this.setState({
-                defaultId: this.defaultId
+                defaultId: this.state.defaultId
             })
             return
         }
@@ -94,66 +83,33 @@ export default class RadioPlus extends Component {
             defaultId: e
         })
         if (this.props.valueLink) {
-            this.setValueByReducers(this.props.valueLink, e)
+            this.setValueByReducers(e)
         }
         this.props.getValueCallback && this.props.getValueCallback(e)
     }
 
     createRadios() {
-        const list = this.list
+        const list = this.state.list
         let radios = []
         if (DataUtil.is.Object(list)) {
             _.each(list, function (name, id) {
-                radios.push(<Input type="radio" label={name} value={id} key={id} />)
+                radios.push(<Input type="radio" label={name} value={id} key={id}/>)
             })
         }
         return radios
     }
 
-    setDisabled(ref, is) {
-        this.input = ref
-        if (this.input) {
-            const input = findDOMNode(this.input).querySelector('input')
-            input.disabled = is
-        }
-    }
-
-    getViewOnlyValue() {
-        if (this.defaultId) {
-            return this.list[this.defaultId]
-        }
-        return this.props.defaultName
-    }
-
     render() {
         const _this = this
-        let style = {}
-        style = _.extend(style, this.props.style)
-        if (this.state.viewOnly) {
-            const val = this.getViewOnlyValue()
-            return (
-                <div className="inputPlus">
-                    <Input type="text" value={val}
-                           ref={(ref) => {
-                               _this.setDisabled(ref, true)
-                           }}/>
-                </div>
-            )
-        }
-        if (this.state.disabled) {
-            return <RadioGroup className="radioPlus" style={style} defaultChecked={this.state.defaultId}
-                               getValueCallback={(e) => {
-                                   _this.getValueCallback(e)
-                               }}>
-                {this.createRadios()}
-            </RadioGroup>
-        } else {
-            return <RadioGroup style={this.props.style} defaultChecked={this.state.defaultId}
-                               getValueCallback={(e) => {
-                                   _this.getValueCallback(e)
-                               }}>
-                {this.createRadios()}
-            </RadioGroup>
-        }
+        const className = classNames('radioPlus', {
+            'radioPlus-disabled': this.state.viewOnly,
+            'cursor-auto': (this.state.viewOnly || this.state.disabled)
+        })
+        return <RadioGroup className={className} defaultChecked={this.state.defaultId}
+                           getValueCallback={(e) => {
+                               _this.getValueCallback(e)
+                           }}>
+            {this.createRadios()}
+        </RadioGroup>
     }
 }

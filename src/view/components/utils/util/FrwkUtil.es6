@@ -1,9 +1,10 @@
 import DataUtil from './DataUtil'
 let FrwkUtil = FrwkUtil || {}
 import _ from 'underscore'
+import $ from 'jquery'
 
 FrwkUtil.store = {
-    getValueBylinkedState: function (props, valueLink) {
+    getValueByReducers: function (props, valueLink) {
         let keys = valueLink.split('.')
         const modelName = keys.shift()
         const model = props[modelName.toLowerCase()]
@@ -25,7 +26,7 @@ FrwkUtil.store = {
                 val = model.get(keys[0])
             }
         } catch (e) {
-            window.console && window.console.error('FrwkUtil.store.getValueBylinkedState', keys.join(), rs, e)
+            window.console && window.console.error('FrwkUtil.store.getValueByReducers', keys.join(), rs, e)
         }
         return val
     }
@@ -75,13 +76,18 @@ FrwkUtil.ComponentUtils = {
     /**
      * 初始化 defaultId
      * @param _this
+     * TODO 根据 defaultName 取 defaultId
      */
     getDefaultId: function (_this) {
-        let {defaultId} = _this.props
-        if ((defaultId != null && defaultId != '') || DataUtil.validate.boolean(defaultId)) {
-            defaultId = defaultId + ''
+        let {defaultId, valueLink} = _this.props
+        if (defaultId || _.isNumber(defaultId) || DataUtil.validate.boolean(defaultId)) {
+            FrwkUtil.store.getValueByReducers(_this.props, valueLink) != defaultId && _this.props.setValueByReducers(valueLink, defaultId)
+            return defaultId
         } else {
-            defaultId = FrwkUtil.store.getValueBylinkedState(_this.props, _this.props.valueLink) + ''
+            defaultId = String(FrwkUtil.store.getValueByReducers(_this.props, _this.props.valueLink))
+        }
+        if (!defaultId) {
+            window.console.error(_this.props.valueLink, 'defaultId is null')
         }
         return defaultId
     },
@@ -91,28 +97,30 @@ FrwkUtil.ComponentUtils = {
      * {1:'tom',2:'jerry'} ==> {'1':'tom','2':'jerry'}
      * @param _this
      */
-    transform: function (_this) {
-        let {list, param} = _this.props, objs = {}
-        if(!list){
-            window.console.error(_this , 'list is null!!!')
-            return
-        }
+    transform: function (props) {
+        let {list, param} = props, objs = {}
         try {
             if (DataUtil.is.Array(list)) {
                 for (let i in list) {
                     const item = list[i]
-                    const id = item[param.id] + ''
-                    objs[id] = item[param.name]
+                    const id = String(item[param.id])
+                    if (item[param.id] == undefined || item[param.name] == undefined) {
+                        window.console.error(props.valueLink, 'transform: param.id or param.name is undefined')
+                    }
+                    objs[id] = String(item[param.name])
                 }
-            }else if (DataUtil.is.Object(list)) {
+            } else if (DataUtil.is.Object(list)) {
                 _.each(list, function (name, id) {
-                    objs[id + ''] = name
+                    objs[String(id)] = String(name)
                 })
             }
-            _this.list = objs
+            if ($.isEmptyObject(objs)) {
+                window.console.error(props.valueLink, 'transform: objs is null!!!')
+            }
         } catch (e) {
-            window.console.error(_this + '.initList', e, list)
+            window.console.error(props.valueLink + '.initList', e, list)
         }
+        return objs
     }
 }
 

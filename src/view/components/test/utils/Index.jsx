@@ -4,6 +4,8 @@ import {Grid, Tabset, Tab} from 'eagle-ui'
 import TextArea from './TextAreaTest'
 import InputPuls from './InputPulsTest'
 import RadioPulsTest from './RadioPulsTest'
+import SelectPulsTest from './SelectPulsTest'
+import CalenderPanelPulsTest from './CalenderPanelPulsTest'
 
 export default class Index extends Component {
     constructor(props) {
@@ -13,8 +15,8 @@ export default class Index extends Component {
         }
     }
 
-    callback(index) {
-        window.console.log('i', index)
+    callback() {
+       //window.console.log('i', index)
     }
 
     render() {
@@ -37,11 +39,11 @@ export default class Index extends Component {
                         <Tab heading='RadioPuls' key="3">
                             <RadioPulsTest />
                         </Tab>
-                        <Tab heading='tab4'key="4">
-                            <TextArea />
+                        <Tab heading='SelectPulsTest' key="4">
+                            <SelectPulsTest />
                         </Tab>
-                        <Tab heading='tab5' key="5">
-                            <TextArea />
+                        <Tab heading='CalenderPanelPulsTest' key="5">
+                            <CalenderPanelPulsTest />
                         </Tab>
                     </Tabset>
                 </Grid>

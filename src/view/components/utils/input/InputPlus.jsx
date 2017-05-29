@@ -1,10 +1,11 @@
 /**
  * Created by liang.wang on 16/9/29.
  */
-import React, {Component, PropTypes} from 'react'
+import React, {PropTypes} from 'react'
+import Component from '../base/Component'
 import {Input} from 'eagle-ui'
 import {findDOMNode} from 'react-dom'
-import {FrwkUtil, DataUtil} from '../util/Index'
+import {DataUtil} from '../util/Index'
 import './InputPlus.less'
 
 export default class InputPlus extends Component {
@@ -53,62 +54,37 @@ export default class InputPlus extends Component {
     constructor(props, context) {
         super(props, context)
         this.state = {
-            disabled: this.props.disabled,
-            viewOnly: this.props.viewOnly,
-            content: this.props.defaultValue || this.getContent()
+            disabled: props.disabled,
+            viewOnly: props.viewOnly,
+            content: props.defaultValue || this.getValueByReducers() || ''
         }
     }
 
-    getContent() {
-        return FrwkUtil.store.getValueBylinkedState(this.props, this.props.valueLink) || ''
-    }
-
-    /*
-     setValueByReducers(key, value) {
-     if (key) {
-     this.manualChange(key, Immutable.fromJS(value))
-     } else {
-     window.console.error('setValueByReducers error', key, value)
-     }
-     }
-     */
-    /*
-     getValueByReducers(key) {
-     if (key) {
-     const {config} = this.props
-     return getValueBylinkedState(config, key)
-     } else {
-     window.console.error('getValueByReducers error', key, value)
-     }
-     }*/
-
-    componentWillReceiveProps(props) {
-        if (props.disabled != this.state.disabled || props.viewOnly != this.state.viewOnly) {
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.disabled != this.props.disabled || nextProps.viewOnly != this.props.viewOnly) {
             this.setState({
-                disabled: props.disabled,
-                viewOnly: props.viewOnly
+                disabled: nextProps.disabled,
+                viewOnly: nextProps.viewOnly
             })
         }
     }
 
-    change(val){
+    change(val) {
         val = this.validData(val)
         if (this.state.content != val) {
             this.setState({
                 content: val
             })
-            if (this.props.setValueByReducers && this.props.valueLink) {
-                this.props.setValueByReducers(this.props.valueLink, val)
-            } else {
-                window.console.warn('InputPlus miss setValueByReducers')
-            }
+            this.setValueByReducers(val)
         }
     }
+
     onChangeHandler(e) {
         let val = DataUtil.StringUtils.trim(e.target.value) || ''
         this.change(val)
         this.props.onChangeCallback && this.props.onChangeCallback(this, val)
     }
+
     onblurHandler(e) {
         let val = DataUtil.StringUtils.trim(e.target.value) || ''
         this.change(val)
@@ -116,39 +92,14 @@ export default class InputPlus extends Component {
     }
 
     validData(val) {
-        if (this.props.validRules.maxLength) {
+        if (this.props.validRules.maxLength)
             val = DataUtil.StringUtils.getLength(val, this.props.validRules.maxLength)
-        }
-        if (this.props.validRules.isInt) {
+        if (this.props.validRules.isInt)
             val = DataUtil.StringUtils.getInt(val)
-        }
-        if (this.props.validRules.isFloat) {
+        if (this.props.validRules.isFloat)
             val = DataUtil.StringUtils.getFloat(val)
-        }
         return val
     }
-
-    /*    defaultValue(val) {
-     if (this.props.defaultValue && val == '') {
-     val = this.props.defaultValue
-     }
-     return val
-     }
-
-     getDefaultValue() {
-     if (this.state.defaultValue) {
-     return this.state.defaultValue
-     }
-     let val = this.getValueByReducers(this.props.valueLink);
-     if (this.state.disabled || this.state.viewOnly) {
-     if (val) {
-     return val
-     }
-     } else {
-     return val
-     }
-     return this.props.placeholder
-     }*/
 
     setDisabled(ref, is) {
         this.input = ref
@@ -160,7 +111,6 @@ export default class InputPlus extends Component {
 
     render() {
         const _this = this
-        //let val = this.getDefaultValue()
         if (this.state.viewOnly) {
             if (this.state.span) {
                 return (

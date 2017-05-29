@@ -1,5 +1,5 @@
 import MathUtil from './MathUtil'
-//import _ from 'underscore'
+import _ from 'underscore'
 import $ from 'jquery'
 
 let DataUtil = DataUtil || {}
@@ -64,6 +64,68 @@ DataUtil.StringUtils = {
     }
 }
 
+DataUtil.ObjUtils = {
+    merge: function (arr) {
+        let rs = {}
+        for (var i in arr) {
+            rs = _.extend(rs, arr[i].param)
+        }
+        return rs
+    },
+    stroes: function (arr) {
+        let rs = {}
+        for (var i in arr) {
+            rs = _.extend(rs, arr[i].stroes)
+        }
+        return rs
+    },
+    isEqual: function (object, other) {
+        (!object || !other) && window.console.error('DataUtil.ObjUtils.isEqual: object or other is null', object, other)
+        return _.isEqual(object, other)
+    },
+    /**
+     * 根据val取第一个匹配的key,兼容[],{}
+     * {a:1,b:2} => a
+     * [{id:1,name:'tom'},{id:2,name:'jerry'}] => 1
+     * @param list
+     * @param val
+     */
+    findWhereIdByVal: function (list, val, id) {
+        (!list || _.isEmpty(list)) && window.console.error('DataUtil.ObjUtils.findWhereIdByVal: list is empty', list, val, id)
+        !val && window.console.error('DataUtil.ObjUtils.findWhereIdByVal: val is null', list, val, id)
+        !id && window.console.error('DataUtil.ObjUtils.findWhereIdByVal: id is null', list, val, id)
+        if (_.isArray(list)) {
+            return String(_.findWhere(list, val)[id])
+        } else if (_.isObject(list)) {
+            for (let key in list) {
+                if (list[key] == val) {
+                    return String(key)
+                }
+            }
+        }
+    },
+    /**
+     * 根据val取第一个匹配的key,兼容[],{}
+     * {a:1,b:2} => 1
+     * [{id:1,name:'tom'},{id:2,name:'jerry'}] => tom
+     * @param list
+     * @param val
+     */
+    findWhereValById: function (list, id, name) {
+        (!list || _.isEmpty(list)) && window.console.error('DataUtil.ObjUtils.findWhereIdByVal: list is empty', list, id, name)
+        !id && window.console.error('DataUtil.ObjUtils.findWhereIdByVal: val is null', list, id, name)
+        !name && window.console.error('DataUtil.ObjUtils.findWhereIdByVal: id is null', list, id, name)
+        if (_.isArray(list)) {
+            return String(_.findWhere(list, id)[name])
+        } else if (_.isObject(list)) {
+            for (let key in list) {
+                if (key == id) {
+                    return String(list[key])
+                }
+            }
+        }
+    }
+}
 
 /**
  * 检测各种具体是对象类型
