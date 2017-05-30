@@ -1,9 +1,3 @@
-import TestControl from './test/TestControl'
-import BaseControl from './trade/BaseControl'
-import TradeControl from './trade/TradeControl'
-
-export default {
-    TestControl,
-    BaseControl,
-    TradeControl
-}
+export TestControl from './test/TestControl'
+export BaseControl from './trade/BaseControl'
+export TradeControl from './trade/TradeControl'

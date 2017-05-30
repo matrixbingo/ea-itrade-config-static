@@ -1,9 +1,4 @@
-import TestModel from './test/TestModel'
-import BaseModel from './trade/BaseModel'
-import TradeModel from './trade/TradeModel'
+export TestModel from './test/TestModel'
+export BaseModel from './trade/BaseModel'
+export TradeModel from './trade/TradeModel'
 
-export default {
-    TestModel,
-    BaseModel,
-    TradeModel
-}

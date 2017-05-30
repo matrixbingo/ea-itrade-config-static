@@ -1,7 +1,2 @@
-import DataUtil from './DataUtil'
-import FrwkUtil from './FrwkUtil'
-
-export default {
-    DataUtil,
-    FrwkUtil
-}
+export DataUtil from './DataUtil'
+export FrwkUtil from './FrwkUtil'
