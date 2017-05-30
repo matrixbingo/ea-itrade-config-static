@@ -1,13 +1,5 @@
-import TextArea from './textArea/TextArea.jsx'
-import InputPuls from './input/InputPlus'
-import RadioPlus from './radio/RadioPlus'
-import SelectPlus from './select/SelectPlus'
-import CalendarPanelPlus from './calendar/CalendarPanelPlus'
-
-export default {
-    TextArea,
-    InputPuls,
-    RadioPlus,
-    SelectPlus,
-    CalendarPanelPlus
-}
+export TextArea from './textArea/TextArea.jsx'
+export InputPlus from './input/InputPlus'
+export RadioPlus from './radio/RadioPlus'
+export SelectPlus from './select/SelectPlus'
+export CalendarPanelPlus from './calendar/CalendarPanelPlus'

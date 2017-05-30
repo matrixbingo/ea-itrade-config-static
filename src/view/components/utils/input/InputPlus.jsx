@@ -118,18 +118,20 @@ export default class InputPlus extends Component {
                         <span>{this.state.content}</span>
                     </div>
                 )
+            }else {
+                return (
+                    <div className="inputPlus">
+                        <Input type="text" value={this.state.content}
+                               ref={(ref) => {
+                                   _this.setDisabled(ref, true)
+                               }}/>
+                    </div>
+                )
             }
-            return (
-                <div className="inputPlus">
-                    <Input type="text" value={this.state.content}
-                           ref={(ref) => {
-                               _this.setDisabled(ref, true)
-                           }}/>
-                </div>
-            )
         } else if (this.state.disabled) {
             return (
-                <Input disabled={true} style={this.props.style} className={this.props.className} type="text" value=''
+                <Input disabled={true} style={this.props.style} className={this.props.className} type="text"
+                       value={this.state.content}
                        placeholder={this.state.content}
                        ref={(ref) => {
                            _this.setDisabled(ref, true)

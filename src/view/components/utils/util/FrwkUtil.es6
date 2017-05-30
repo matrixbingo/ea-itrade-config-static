@@ -5,10 +5,12 @@ import $ from 'jquery'
 
 FrwkUtil.store = {
     getValueByReducers: function (props, valueLink) {
+        (!props || !valueLink) && window.console.error('FrwkUtil.store.getValueByReducers : props or valueLink is undefined', props, valueLink)
         let keys = valueLink.split('.')
         const modelName = keys.shift()
         const model = props[modelName.toLowerCase()]
         if (!model || !keys) {
+            window.console.warn('FrwkUtil.store.getValueByReducers model or keys miss:', props, valueLink)
             return ''
         }
         let val = '', rs = []
@@ -56,7 +58,7 @@ FrwkUtil.UrlUtils = {
      * @returns ?b=1&c=2
      */
     initParams: function (data) {
-        if (!data) {
+        if (!data || _.isEmpty(data)) {
             return ''
         }
         var arr = []

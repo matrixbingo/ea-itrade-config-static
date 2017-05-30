@@ -319,20 +319,3 @@ DataUtil.formatTime = function (time) {
     time = time + '';
     return time.substr(0, 4) + '-' + time.substr(4, 2) + '-' + time.substr(6, 2);
 }
-
-DataUtil.getType = function (type) {
-    switch (type) {
-        case 1:
-            return '小盘>9000';
-        case 2 :
-            return '中盘>9000';
-        case 3 :
-            return '小盘1000~9000';
-        case 4 :
-            return '中盘3000~9000';
-    }
-}
-
-FormUtil.getStockUrl = function (code) {
-    return 'http://stockhtm.finance.qq.com/sstock/ggcx/' + code + '.shtml';
-}

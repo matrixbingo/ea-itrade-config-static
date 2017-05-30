@@ -2,7 +2,7 @@ import React, {Component /*,PropTypes*/} from 'react'
 import {Head, Footer} from 'ea-head'
 import {Grid, Tabset, Tab} from 'eagle-ui'
 import TextArea from './TextAreaTest'
-import InputPuls from './InputPulsTest'
+import InputPulsTest from './InputPulsTest'
 import RadioPulsTest from './RadioPulsTest'
 import SelectPulsTest from './SelectPulsTest'
 import CalenderPanelPulsTest from './CalenderPanelPulsTest'
@@ -34,7 +34,7 @@ export default class Index extends Component {
                             <TextArea />
                         </Tab>
                         <Tab heading='InputPuls' key="2">
-                            <InputPuls />
+                            <InputPulsTest />
                         </Tab>
                         <Tab heading='RadioPuls' key="3">
                             <RadioPulsTest />

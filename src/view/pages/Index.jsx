@@ -27,7 +27,7 @@ class AppRouter extends Component {
                     <Route path="/test" component={Test}/>
                     <Route path="/index" component={Index}/>
                     <Route path="/testIndex" component={TestIndex}/>
-                    <Redirect from="/" to="/testIndex"/>
+                    <Redirect from="/" to="/index"/>
                 </Router>
             </div>
         )

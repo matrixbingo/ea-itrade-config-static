@@ -202,4 +202,11 @@ DataUtil.validate = {
      }*/
 }
 
+DataUtil.Date = {
+    formatTime:function (time) {
+        time = String(time)
+        return time.substr(0,4) + '-' + time.substr(4,2) + '-' + time.substr(6,2)
+    }
+}
+
 export default DataUtil

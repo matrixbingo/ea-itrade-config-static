@@ -1,6 +1,6 @@
 import React, {Component /*,PropTypes*/} from 'react'
 import {View} from 'ea-react-dm'
-import {InputPuls} from '../../utils/index'
+import {InputPlus} from '../../utils/index'
 import TestControl from '../../../../controller/test/TestControl'
 import {Grid, Row, Col, Button} from 'eagle-ui'
 import '../../../styles/test.less'
@@ -39,7 +39,7 @@ export default class InputPulsTest extends Component {
         return (
             <Grid fluid>
                 <Row>
-                    <Col sm={3}>
+                    <Col sm={4}>
                         <Row>
                             <Col>
                                 <Button onClick={this.clickInputPuls.bind(this, 1)}>InputPuls disabled</Button>
@@ -55,12 +55,11 @@ export default class InputPulsTest extends Component {
                         </Row>
                     </Col>
                     <Col sm={7}>
-                        <InputPuls {...this.props} valueLink='testmodel.inputPuls.value'
+                        <InputPlus {...this.props} valueLink='testmodel.inputPuls.value'
                                    disabled={this.state.inputPuls.disabled}
                                    viewOnly={this.state.inputPuls.viewOnly}
-                                   span={this.state.inputPuls.span}/>
+                                   span={this.state.inputPuls.span} />
                     </Col>
-                    <Col sm={1}/>
                 </Row>
             </Grid>
         )
