@@ -3,7 +3,7 @@ import {View} from 'ea-react-dm'
 import {Head,Footer} from 'ea-head'
 import {Grid,Row,Col} from 'eagle-ui'
 import TestControl from '../../../controller/test/TestControl'
-import BaseControl from '../../../controller/trade/BaseControl'
+import BaseControl from '../../../controller/base/BaseControl'
 import BookList from './BookList'
 import '../../styles/test.less'
 

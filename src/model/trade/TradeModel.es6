@@ -1,9 +1,10 @@
 import {Model} from 'ea-react-dm'
+import BaseModel from './BaseModel'
 
 @Model
-export default class TradeModel {
+export default class TradeModel extends BaseModel {
     static tradeList = {
-        "list": [
+        "list":     [
             {
                 id: 2228,
                 type: 3,

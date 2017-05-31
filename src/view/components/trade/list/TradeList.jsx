@@ -2,13 +2,14 @@
  * Created by liang.wang on 16/5/10.
  */
 import React from 'react'
-import Component from '../../utils/base/Component'
+import Component from '../../utils/base/ComponentMsg'
 import {Row, Col, Panel, PanelHeader, PanelContent, Paging, Select, Button} from 'eagle-ui'
 import TradeRow from './TradeRow'
 import {View} from 'ea-react-dm'
 import './TradeRow.less'
 import {CalendarPanelPlus, InputPlus} from '../../utils/index'
 import TradeControl from '../../../../controller/trade/TradeControl'
+import AlertContainer from 'react-alert'
 
 @View(TradeControl)
 export default class TradeList extends Component {
@@ -74,8 +75,8 @@ export default class TradeList extends Component {
         search.bin = this.formatTime(search.bin)
         search.end = this.formatTime(search.end)
         search.page = 1
-        this.props.loadTradeList(search)
-        this.setValueByReducers('search', search)
+        this.props.loadTradeList(search, this)
+        this.setValueByReducers('TradeModel.search', search)
         window.console.log('查询列表', search)
     }
 
@@ -88,7 +89,7 @@ export default class TradeList extends Component {
         search.sortType = this.desc
         window.console.log('查询列表', search)
         this.props.loadTradeList(search)
-        this.setValueByReducers('search', search)
+        this.setValueByReducers('TradeModel.search', search)
     }
 
     render() {
@@ -103,7 +104,8 @@ export default class TradeList extends Component {
         }
         //console.log('search.page: ' + search.page + ' search.pageSize: ' + search.pageSize + ' totals: ' + totals)
         return (
-            <div className="tradeList outerPanel marginTopSpace replyContent margin-top-10">
+            <div className="tradeList outerPanel marginTopSpace">
+                <AlertContainer ref={a => this.msg = a} {...this.msgOptions} />
                 <Panel className="marginTopSpace">
                     <Row>
                         <Col sm={1} className="col-lr">
@@ -141,12 +143,12 @@ export default class TradeList extends Component {
                         </Col>
                         <Col sm={2} className="col-lr">
                             <CalendarPanelPlus startDate="1900-01-01"
-                                               valueLink='search.bin'
+                                               valueLink='TradeModel.search.bin'
                                                {...this.props} placeholder="开始时间"/>
                         </Col>
                         <Col sm={2} className="col-lr">
                             <CalendarPanelPlus startDate="1900-01-01"
-                                               valueLink='search.end'
+                                               valueLink='TradeModel.search.end'
                                                {...this.props} placeholder="结束时间"/>
                         </Col>
                         <Col sm={2}>
@@ -154,7 +156,7 @@ export default class TradeList extends Component {
                         </Col>
                     </Row>
                     <PanelHeader className="marginSpacePanelHeader">
-                        <Row className="background-color">
+                        <Row className="panelHeader-background">
                             <Col sm={1} className="text-align-center">
                                 序号
                             </Col>

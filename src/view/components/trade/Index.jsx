@@ -1,6 +1,7 @@
 import React, {Component /*,PropTypes*/} from 'react'
 import {Panel, Tabset, Tab} from 'eagle-ui'
 import TradeList from './list/TradeList'
+import './Index.less'
 
 export default class Index extends Component {
     constructor(props) {
@@ -9,12 +10,15 @@ export default class Index extends Component {
             tabIndex: 0
         }
     }
+
     callback() {
         //window.console.log('i', index)
     }
+
     render() {
         return (
-                <Panel className="marginTopSpace paddingSpace question-margin configGXIndex">
+            <div>
+                <Panel className="ea-Panel-margin ea-Panel-width ea-Panel-border ea-Panel-background">
                     <Tabset disableHoverAnimation={true} activeTab={this.state.tabIndex}
                             tabCallback={::this.callback}>
                         <Tab heading='主力列表'>
@@ -22,6 +26,7 @@ export default class Index extends Component {
                         </Tab>
                     </Tabset>
                 </Panel>
+            </div>
         )
     }
 }

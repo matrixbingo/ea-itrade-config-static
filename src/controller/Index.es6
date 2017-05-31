@@ -1,3 +1,3 @@
 export TestControl from './test/TestControl'
-export BaseControl from './trade/BaseControl'
+export BaseControl from './base/BaseControl'
 export TradeControl from './trade/TradeControl'

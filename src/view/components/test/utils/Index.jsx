@@ -6,6 +6,7 @@ import InputPulsTest from './InputPulsTest'
 import RadioPulsTest from './RadioPulsTest'
 import SelectPulsTest from './SelectPulsTest'
 import CalenderPanelPulsTest from './CalenderPanelPulsTest'
+import AlertContainerTest from './AlertContainerTest'
 
 export default class Index extends Component {
     constructor(props) {
@@ -45,9 +46,12 @@ export default class Index extends Component {
                         <Tab heading='CalenderPanelPulsTest' key="5">
                             <CalenderPanelPulsTest />
                         </Tab>
+                        <Tab heading='AlertContainerTest' key="6">
+                            <AlertContainerTest />
+                        </Tab>
                     </Tabset>
                 </Grid>
-                <Footer  content='2017'/>
+                <Footer content='2017'/>
             </div>
         )
     }

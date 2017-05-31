@@ -1,6 +1,6 @@
-import {Model} from 'ea-react-dm'
+//import {Model} from 'ea-react-dm'
 
-@Model
+
 export default class BaseModel {
-
+    static version = '0.0.1'
 }

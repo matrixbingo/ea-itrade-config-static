@@ -50,7 +50,7 @@ export default class TradeRow extends Component {
                         rowNo++
                         return <Row key={rowNo} className={rowColor}>
                             <Col sm={1} className="text-align-center">
-                                {/*<Msg value={page++} ele={ele.toJS()} {...this.props} />*/}
+                                {rowNo} {/*<Msg value={page++} ele={ele.toJS()} {...this.props} />*/}
                             </Col>
                             <Col style={{width:'14%'}} className="text-align-center">
                                 {TradUtil.getType(ele.get('type'))}
