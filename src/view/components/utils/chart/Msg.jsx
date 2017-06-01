@@ -42,7 +42,10 @@ export default class Msg extends Component {
         if(type && code && time){
             rtools.constructor.addLoadingBar({run:()=>{},end:()=>{}})
             const url = actionType.BASE_URL + '/trade/stock/buysel'
-            fetch(url + '?time=' + time + '&code=' +code + '&type=' +type, {}).then((data) => {
+            fetch(url + '?time=' + time + '&code=' +code + '&type=' +type, {
+                method: 'GET',
+                timeout: 60000
+            }).then((data) => {
                 if(data && data.code == 200){
                     _this.initData(data.msg)
                 }
