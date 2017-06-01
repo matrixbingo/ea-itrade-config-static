@@ -34,4 +34,4 @@ class AppRouter extends Component {
     }
 }
 
-page(AppRouter)
+export const rtools = page(AppRouter)

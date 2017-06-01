@@ -116,7 +116,7 @@ export default class TradeList extends Component {
                             <InputPlus {...this.props} valueLink='TradeModel.search.raend'
                                        placeholder='涨幅'/>
                         </Col>
-                        <Col sm={10} />
+                        <Col sm={10}/>
                     </Row>
                     <Row>
                         <Col sm={1} className="col-lr">
@@ -179,7 +179,7 @@ export default class TradeList extends Component {
                                 <span className="cursor" onClick={this.sort.bind(_this, 'range')}>涨幅</span>
                             </Col>
                             <Col sm={1} className="text-align-center">
-                                涨速
+                                <span className="cursor" onClick={this.sort.bind(_this, 'speed')}>涨速</span>
                             </Col>
                             <Col sm={1} className="text-align-center">
                                 <span className="cursor" onClick={this.sort.bind(_this, 'stock')}>流通股本</span>

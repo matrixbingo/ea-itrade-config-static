@@ -1,12 +1,12 @@
 /**
  * Created by liang.wang on 16/5/10.
  */
-import React, { Component } from 'react'
-import {Row,Col} from 'eagle-ui'
+import React, {Component} from 'react'
+import {Row, Col} from 'eagle-ui'
 import './TradeRow.less'
 import TradUtil from '../common/common'
 import {DataUtil} from '../../utils/util/Index'
-//import Msg from '../../utils/chart/Msg'
+import Msg from '../../utils/chart/Msg'
 
 export default class TradeRow extends Component {
 
@@ -15,32 +15,18 @@ export default class TradeRow extends Component {
         this.state = {}
     }
 
-    checkAgent(id, type) {
-        //let power = this.setValueByReducers('')
-        this.props.setValueByReducers('power.agentEditor', type)
-        this.props.setValueByReducers('agentListSearch.corporationId', id)
-        this.props.loadCorporationbyId(id, this, this.loadCorporationbyIdCallback)
-        this.props.loadAllContactsbyId(id)
-        this.props.setValueByReducers('power.tabType', 1)
-        this.props.setTabIndex(1)
-    }
-
-    loadCorporationbyIdCallback(_this, data) {
-        window.console.log(_this, data)
-        //_this.props.loadCityListByProvinceId(data.msg.provinceId)
-    }
-
     render() {
+        const _this = this
         const list = this.props.list
-        //const pageNo = this.props.pageNo
-        //const pageSize = this.props.pageSize
+        const pageNo = this.props.pageNo
+        const pageSize = this.props.pageSize
         let rowNo = 1
-        //let page = (pageNo - 1) * pageSize + 1
+        let page = (pageNo - 1) * pageSize + 1
         let url
         return (
             <div className="tradeRow">
                 {
-                    list && list.map((ele)=> {
+                    list && list.map((ele) => {
                         let rowColor = rowNo % 2 == 0 ? 'row-color-odd' : 'row-color-eve'
                         let colColor = ele.get('range') > 0 ? {color: 'red'} : {color: 'green'}
                         url = TradUtil.getStockUrl(ele.get('code'))
@@ -50,12 +36,12 @@ export default class TradeRow extends Component {
                         rowNo++
                         return <Row key={rowNo} className={rowColor}>
                             <Col sm={1} className="text-align-center">
-                                {rowNo} {/*<Msg value={page++} ele={ele.toJS()} {...this.props} />*/}
+                                {<Msg value={page++} ele={ele.toJS()} {..._this.props} />}
                             </Col>
-                            <Col style={{width:'14%'}} className="text-align-center">
+                            <Col style={{width: '14%'}} className="text-align-center">
                                 {TradUtil.getType(ele.get('type'))}
                             </Col>
-                            <Col style={{width:'11%'}} className="text-align-center">
+                            <Col style={{width: '11%'}} className="text-align-center">
                                 {DataUtil.Date.formatTime(ele.get('time'))}
                             </Col>
                             <Col sm={1} className="text-align-center">
@@ -76,10 +62,10 @@ export default class TradeRow extends Component {
                             <Col sm={1} className="text-align-center">
                                 {ele.get('stock')}
                             </Col>
-                            <Col sm={1} className="text-align-center" style={ele.get('buy')!=0? {color:'red'} : {}}>
+                            <Col sm={1} className="text-align-center" style={ele.get('buy') != 0 ? {color: 'red'} : {}}>
                                 {ele.get('buy')}
                             </Col>
-                            <Col sm={1} className="text-align-center" style={{color:'green'}}>
+                            <Col sm={1} className="text-align-center" style={{color: 'green'}}>
                                 {ele.get('sel')}
                             </Col>
                         </Row>

@@ -3,7 +3,7 @@ import {Action} from 'ea-react-dm'
 import FrwkUtil from '../../view/components/utils/util/FrwkUtil'
 import LoadingBar from './LoadingBar'
 
-const ajax = {
+export const ajax = {
     fetch: function (connect, type, url, param, valueLink, _this, callBack) {
         return (dispatch) => {
             fetch(url + FrwkUtil.UrlUtils.initParams(param), {

@@ -16,6 +16,6 @@ export default class TradeModel extends BaseModel {
         "page": 1,
         "pageSize": 10,
         "sort": '',
-        "sortType": 'true'
+        "sortType": true
     }
 }

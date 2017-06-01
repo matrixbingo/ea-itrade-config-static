@@ -11,7 +11,7 @@ export default class BaseComponent extends Component {
     getValueByReducers() {
         switch (arguments.length) {
             case 0:
-                !this.props.valueLink && window.console.error('BaseComponent.getValueByReducers, valueLink or arguments[0] miss', this._reactInternalInstance.getName(), this.props)
+                !this.props.valueLink && window.console.error('BaseComponent.getValueByReducers, valueLink or arguments[0] miss', this._reactInternalInstance && this._reactInternalInstance && this._reactInternalInstance.getName(), this.props)
                 return FrwkUtil.store.getValueByReducers(this.props, this.props.valueLink)
             case 1:
                 if(arguments[0].valueLink && _.isObject(arguments[0])){

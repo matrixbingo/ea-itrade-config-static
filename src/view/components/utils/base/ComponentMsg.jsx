@@ -14,6 +14,7 @@ export default class BaseComponent extends Component {
         time: 5000,
         transition: 'scale'
     }
+
     /**
      * @param type : info, success, error
      * @param msg
