@@ -7,6 +7,7 @@ import './TradeRow.less'
 import TradUtil from '../common/common'
 import {DataUtil} from '../../utils/util/Index'
 import Msg from '../../utils/chart/TradeHistoryChart'
+import RowImgList from './RowImgList/RowImgList'
 
 export default class TradeRow extends Component {
 
@@ -70,23 +71,24 @@ export default class TradeRow extends Component {
                                     {ele.get('sel')}
                                 </Col>
                             </Row>
-                            <Row>
-                                <Col style={{width:'19%'}}>
-                                    <img src="http://image.sinajs.cn/newchart/daily/n/sh000001.gif" />
+                            {/*<Row className="row-color-eve">
+                                <Col className="col-div-width col-left-right">
+                                    <img src="http://image.sinajs.cn/newchart/daily/n/sh000001.gif"/>
                                 </Col>
-                                <Col style={{width:'19%'}}>
+                                <Col className="col-div-width col-left-right">
                                     <img src="http://image.sinajs.cn/newchart/weekly/n/sh000001.gif" />
                                 </Col>
-                                <Col style={{width:'19%'}}>
+                                <Col className="col-div-width col-left-right">
                                     <img src="http://image.sinajs.cn/newchart/monthly/n/sh000001.gif" />
                                 </Col>
-                                <Col style={{width:'19%'}}>
+                                <Col className="col-div-width col-left-right">
                                     <img src="http://image.sinajs.cn/newchart/daily/n/sh601006.gif" />
                                 </Col>
-                                <Col style={{width:'19%'}}>
+                                <Col className="col-div-width col-left-right">
                                     <img src="http://image.sinajs.cn/newchart/min/n/sh000001.gif" />
                                 </Col>
-                            </Row>
+                            </Row>*/}
+                            <RowImgList />
                         </div>
                     })
                 }
