@@ -7,11 +7,11 @@ import ReactHighcharts from 'react-highcharts'
 import {actionType} from '../../../../constants/action-type'
 import {DataUtil} from '../../utils/util/Index'
 import TradUtil from '../../../../view/components/trade/common/common'
-import './Msg.less'
+import './TradeHistoryChart.less'
 import {fetch} from 'ea-react-dm'
 import {rtools} from '../../../pages/Index'
 
-export default class Msg extends Component {
+export default class TradeHistoryChart extends Component {
     static defaultProps = {
         ele: {},
         value: '123'
@@ -105,7 +105,7 @@ export default class Msg extends Component {
         }
         const url = TradUtil.getStockUrl(this.props.ele.code)
         return (
-            <div className="msg">
+            <div className="msg" style={{position:'relative'}}>
                 <a href={url} onMouseOver={::this.loadData} target="_blank">{this.props.value}</a>
                 <div className="msg-body">
                     <ReactHighcharts config={config} style={{'min-width': '1200px'}} />
