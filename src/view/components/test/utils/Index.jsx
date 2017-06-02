@@ -7,6 +7,8 @@ import RadioPulsTest from './RadioPulsTest'
 import SelectPulsTest from './SelectPulsTest'
 import CalenderPanelPulsTest from './CalenderPanelPulsTest'
 import AlertContainerTest from './AlertContainerTest'
+import AlertTest from './alert/AlertTest'
+
 
 export default class Index extends Component {
     constructor(props) {
@@ -48,6 +50,9 @@ export default class Index extends Component {
                         </Tab>
                         <Tab heading='AlertContainerTest' key="6">
                             <AlertContainerTest />
+                        </Tab>
+                        <Tab heading='AlertTest' key="7">
+                            <AlertTest />
                         </Tab>
                     </Tabset>
                 </Grid>

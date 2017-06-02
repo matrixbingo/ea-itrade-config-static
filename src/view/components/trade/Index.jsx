@@ -1,6 +1,7 @@
 import React, {Component /*,PropTypes*/} from 'react'
 import {Panel, Tabset, Tab} from 'eagle-ui'
 import TradeList from './list/TradeList'
+import Alert from 'react-s-alert'
 import './Index.less'
 
 export default class Index extends Component {
@@ -18,6 +19,7 @@ export default class Index extends Component {
     render() {
         return (
             <div>
+                <Alert stack={true} timeout={4000}/>
                 <Panel className="ea-Panel-margin ea-Panel-width ea-Panel-border ea-Panel-background">
                     <Tabset disableHoverAnimation={true} activeTab={this.state.tabIndex}
                             tabCallback={::this.callback}>

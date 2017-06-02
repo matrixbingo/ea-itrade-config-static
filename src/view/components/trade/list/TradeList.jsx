@@ -2,14 +2,13 @@
  * Created by liang.wang on 16/5/10.
  */
 import React from 'react'
-import Component from '../../utils/base/ComponentMsg'
+import Component from '../../utils/base/ComponentAlert'
 import {Row, Col, Panel, PanelHeader, PanelContent, Paging, Select, Button} from 'eagle-ui'
 import TradeRow from './TradeRow'
 import {View} from 'ea-react-dm'
 import './TradeRow.less'
 import {CalendarPanelPlus, InputPlus} from '../../utils/index'
 import TradeControl from '../../../../controller/trade/TradeControl'
-import AlertContainer from 'react-alert'
 
 @View(TradeControl)
 export default class TradeList extends Component {
@@ -31,7 +30,7 @@ export default class TradeList extends Component {
 
         this.desc = true
 
-        this.props.loadTradeList(this.searchParam)
+        this.props.loadTradeList(this.searchParam, this)
     }
 
     loadPageCallback(ps) {
@@ -40,7 +39,7 @@ export default class TradeList extends Component {
         search.end = this.formatTime(search.end)
         search.page = 1
         search.pageSize = parseInt(ps)
-        this.props.loadTradeList(search)
+        this.props.loadTradeList(search, this)
         this.setValueByReducers('TradeModel.search', search)
     }
 
@@ -49,7 +48,7 @@ export default class TradeList extends Component {
         search.bin = this.formatTime(search.bin)
         search.end = this.formatTime(search.end)
         search.page = page
-        this.props.loadTradeList(search)
+        this.props.loadTradeList(search, this)
         this.setValueByReducers('TradeModel.search', search)
     }
 
@@ -88,7 +87,7 @@ export default class TradeList extends Component {
         search.sort = type
         search.sortType = this.desc
         window.console.log('查询列表', search)
-        this.props.loadTradeList(search)
+        this.props.loadTradeList(search, this)
         this.setValueByReducers('TradeModel.search', search)
     }
 
@@ -105,7 +104,6 @@ export default class TradeList extends Component {
         //console.log('search.page: ' + search.page + ' search.pageSize: ' + search.pageSize + ' totals: ' + totals)
         return (
             <div className="tradeList outerPanel marginTopSpace">
-                <AlertContainer ref={a => this.msg = a} {...this.msgOptions} />
                 <Panel className="marginTopSpace">
                     <Row>
                         <Col sm={1} className="col-lr">

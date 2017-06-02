@@ -10,11 +10,10 @@ export const ajax = {
                 method: type,
                 timeout: 60000
             }).then((data) => {
-                //_this && _this.showMsg('success', url + '查询成功')
                 _this && callBack && callBack(_this, data)
                 dispatch(connect.update(valueLink, data.msg))
             }, (error) => {
-                _this && _this.showMsg('error', url+ '查询失败')
+                _this && _this.showMsg && _this.showMsg('error', 'URL:' + url + ', 查询失败!!!')
                 window.console.error('ajaxGet : ' + url + ' error!!', error)
             })
         }
