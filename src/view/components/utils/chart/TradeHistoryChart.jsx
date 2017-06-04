@@ -2,7 +2,7 @@
  * Created by liang.wang on 16/9/29.
  */
 import React from 'react'
-import Component from '../../utils/base/Component'
+import Component from '../../utils/base/ComponentAlert'
 import ReactHighcharts from 'react-highcharts'
 import {actionType} from '../../../../constants/action-type'
 import {DataUtil} from '../../utils/util/Index'
@@ -10,6 +10,7 @@ import TradUtil from '../../../../view/components/trade/common/common'
 import './TradeHistoryChart.less'
 import {fetch} from 'ea-react-dm'
 import {rtools} from '../../../pages/Index'
+import {Spin} from 'antd'
 
 export default class TradeHistoryChart extends Component {
     static defaultProps = {
@@ -20,6 +21,7 @@ export default class TradeHistoryChart extends Component {
     constructor(props, context) {
         super(props, context)
         this.state = {
+            loading: false,
             categories: [],
             series: [
                 {
@@ -34,28 +36,44 @@ export default class TradeHistoryChart extends Component {
         }
     }
 
-    loadData(){
+    loadData() {
         const _this = this
         const type = this.props.ele.type
         const code = this.props.ele.code
         const time = this.props.ele.time
-        if(type && code && time){
-            rtools.constructor.addLoadingBar({run:()=>{},end:()=>{}})
-            const url = actionType.BASE_URL + '/trade/stock/buysel'
-            fetch(url + '?time=' + time + '&code=' +code + '&type=' +type, {
-                method: 'GET',
-                timeout: 60000
-            }).then((data) => {
-                if(data && data.code == 200){
-                    _this.initData(data.msg)
-                }
-            }, (error) => {
-                window.console.error('loadData : ' + url + ' error!!', error)
+        if (type && code && time) {
+            this.setState({
+                loading:true
+            }, ()=>{
+                rtools.constructor.addLoadingBar({
+                    run: () => {
+                    }, end: () => {
+                    }
+                })
+                const url = actionType.BASE_URL + '/trade/stock/buysel'
+                fetch(url + '?time=' + time + '&code=' + code + '&type=' + type, {
+                    method: 'GET',
+                    timeout: 60000
+                }).then((data) => {
+                    if (data && data.code == 200) {
+                        _this.initData(data.msg)
+                    }
+                    _this.setState({
+                        loading:false
+                    })
+                }, (error) => {
+                    _this.setState({
+                        loading:false
+                    }, ()=>{
+                        _this.showMsg(_this.props.AlertType.error, url + ' error!!')
+                    })
+                    window.console.error('loadData : ' + url + ' error!!', error)
+                })
             })
         }
     }
 
-    initData(list){
+    initData(list) {
         let categories = []
         let series = [
             {
@@ -67,8 +85,8 @@ export default class TradeHistoryChart extends Component {
                 data: []
             }
         ]
-        if(list.length > 0){
-            for(let i in list){
+        if (list.length > 0) {
+            for (let i in list) {
                 const item = list[i]
                 categories.push(DataUtil.Date.formatTime(item.time))
                 series[0].data.push(item.buy)
@@ -76,9 +94,9 @@ export default class TradeHistoryChart extends Component {
             }
         }
         this.setState({
-            categories:categories,
-            series:series,
-            title:list[0].name + '(' + TradUtil.getType(this.props.ele.type) + ')'
+            categories: categories,
+            series: series,
+            title: list[0].name + '(' + TradUtil.getType(this.props.ele.type) + ')'
         })
     }
 
@@ -105,10 +123,12 @@ export default class TradeHistoryChart extends Component {
         }
         const url = TradUtil.getStockUrl(this.props.ele.code)
         return (
-            <div className="msg" style={{position:'relative'}}>
+            <div className="msg" style={{position: 'relative'}}>
                 <a href={url} onMouseOver={::this.loadData} target="_blank">{this.props.value}</a>
                 <div className="msg-body">
-                    <ReactHighcharts config={config} style={{'min-width': '1200px'}} />
+                    <Spin className="msg-spin-body" ize="large" spinning={this.state.loading}>
+                        <ReactHighcharts config={config} style={{'min-width': '1200px'}}/>
+                    </Spin>
                 </div>
             </div>
         )

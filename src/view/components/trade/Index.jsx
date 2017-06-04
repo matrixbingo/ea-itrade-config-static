@@ -24,7 +24,7 @@ export default class Index extends Component {
                     <Tabset disableHoverAnimation={true} activeTab={this.state.tabIndex}
                             tabCallback={::this.callback}>
                         <Tab heading='主力列表'>
-                            {<TradeList />}
+                            <TradeList />
                         </Tab>
                     </Tabset>
                 </Panel>

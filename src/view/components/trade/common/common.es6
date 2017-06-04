@@ -13,8 +13,16 @@ TradUtil.getType = function (type) {
     }
 }
 
+TradUtil.formatCode = function (code) {
+    if (code.substring(0, 1) == 6) {
+        return 'sh' + code
+    }
+    return 'sz' + code
+}
+
 TradUtil.getStockUrl = function (code) {
-    return 'http://stockhtm.finance.qq.com/sstock/ggcx/' + code + '.shtml'
+    //return 'http://stockhtm.finance.qq.com/sstock/ggcx/' + code + '.shtml'
+    return 'http://finance.sina.com.cn/realstock/company/' + TradUtil.formatCode(code) + '/nc.shtml'
 }
 
 export default TradUtil

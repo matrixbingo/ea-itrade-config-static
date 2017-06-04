@@ -9,11 +9,48 @@ import {DataUtil} from '../../utils/util/Index'
 import Msg from '../../utils/chart/TradeHistoryChart'
 import RowImgList from './RowImgList/RowImgList'
 
+
 export default class TradeRow extends Component {
 
     constructor(props, context) {
         super(props, context)
-        this.state = {}
+        this.state = {
+            shouldUpdate: false,
+            code: 0,
+            page: 0
+        }
+    }
+
+    componentWillReceiveProps(nextProps) {
+        const bool = !DataUtil.ObjUtils.isEqual(nextProps.list.toJS(), this.props.list.toJS())
+        if (bool) {
+            this.setState({
+                shouldUpdate: true
+            })
+        } else {
+            this.setState({
+                shouldUpdate: false
+            })
+        }
+    }
+
+    shouldComponentUpdate(nextProps, state) {
+        return state.shouldUpdate || !DataUtil.ObjUtils.isEqual(nextProps.list.toJS(), this.props.list.toJS())
+    }
+
+    toggle(code, page) {
+        this.setState({
+            shouldUpdate: true,
+            code: code,
+            page: page
+        })
+    }
+
+    clearCode() {
+        this.setState({
+            code: 0,
+            page: 0
+        })
     }
 
     render() {
@@ -35,10 +72,11 @@ export default class TradeRow extends Component {
                             colColor = {}
                         }
                         rowNo++
-                        return <div>
-                            <Row key={rowNo} className={rowColor}>
+                        //window.console.log('ele.toJS().code ----->', ele.toJS().code)
+                        return <div key={page}>
+                            <Row className={rowColor}>
                                 <Col sm={1} className="text-align-center">
-                                    {<Msg value={page++} ele={ele.toJS()} {..._this.props} />}
+                                    <Msg value={page++} ele={ele.toJS()} {..._this.props} />
                                 </Col>
                                 <Col style={{width: '14%'}} className="text-align-center">
                                     {TradUtil.getType(ele.get('type'))}
@@ -47,7 +85,10 @@ export default class TradeRow extends Component {
                                     {DataUtil.Date.formatTime(ele.get('time'))}
                                 </Col>
                                 <Col sm={1} className="text-align-center">
-                                    {ele.get('code')}
+                                    <span style={{cursor: 'pointer'}}
+                                          onClick={this.toggle.bind(this, ele.toJS().code, page)}>
+                                        {ele.get('code')}
+                                    </span>
                                 </Col>
                                 <Col sm={1} className="text-align-center">
                                     <a href={url} target="_blank">{ele.get('name')}</a>
@@ -64,31 +105,17 @@ export default class TradeRow extends Component {
                                 <Col sm={1} className="text-align-center">
                                     {ele.get('stock')}
                                 </Col>
-                                <Col sm={1} className="text-align-center" style={ele.get('buy') != 0 ? {color: 'red'} : {}}>
+                                <Col sm={1} className="text-align-center"
+                                     style={ele.get('buy') != 0 ? {color: 'red'} : {}}>
                                     {ele.get('buy')}
                                 </Col>
                                 <Col sm={1} className="text-align-center" style={{color: 'green'}}>
                                     {ele.get('sel')}
                                 </Col>
                             </Row>
-                            {/*<Row className="row-color-eve">
-                                <Col className="col-div-width col-left-right">
-                                    <img src="http://image.sinajs.cn/newchart/daily/n/sh000001.gif"/>
-                                </Col>
-                                <Col className="col-div-width col-left-right">
-                                    <img src="http://image.sinajs.cn/newchart/weekly/n/sh000001.gif" />
-                                </Col>
-                                <Col className="col-div-width col-left-right">
-                                    <img src="http://image.sinajs.cn/newchart/monthly/n/sh000001.gif" />
-                                </Col>
-                                <Col className="col-div-width col-left-right">
-                                    <img src="http://image.sinajs.cn/newchart/daily/n/sh601006.gif" />
-                                </Col>
-                                <Col className="col-div-width col-left-right">
-                                    <img src="http://image.sinajs.cn/newchart/min/n/sh000001.gif" />
-                                </Col>
-                            </Row>*/}
-                            <RowImgList />
+                            <RowImgList code={ele.toJS().code} page={page}
+                                        curCode={this.state.code} curPage={this.state.page}
+                                        shouldUpdate={this.state.shouldUpdate} />
                         </div>
                     })
                 }

@@ -6,6 +6,7 @@ import Index from '@component/trade/Index'
 import Test from '@component/test/Test'
 import TestIndex from '../../view/components/test/utils/Index'
 //import Taaa from '@component/trade/Taaa'
+import '../styles/antd.less'
 
 class AppRouter extends Component {
 

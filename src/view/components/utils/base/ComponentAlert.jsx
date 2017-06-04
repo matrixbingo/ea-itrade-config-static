@@ -14,23 +14,25 @@ export default class ComponentAlert extends Component {
         super(props, context)
     }
 
-    static AlertType = {
-        info: 'info',
-        success: 'success',
-        warning: 'warning',
-        error: 'error'
+    static defaultProps = {
+        AlertType: {
+            info: 'info',
+            success: 'success',
+            warning: 'warning',
+            error: 'error'
+        }
     }
 
     /**
      * @param type : info, success, warning, error
      * @param msg
      */
-    showMsg = function(type, msg){
-        if(arguments.length == 0){
-            type = this.AlertType.error
+    showMsg = function (type, msg) {
+        if (arguments.length == 0) {
+            type = this.props.AlertType.error
             msg = 'showMsg 参数缺失'
-        }else if(arguments.length == 1){
-            type = this.AlertType.info
+        } else if (arguments.length == 1) {
+            type = this.props.AlertType.info
         }
         Alert[type](msg, {
             position: 'top-right',
@@ -41,12 +43,12 @@ export default class ComponentAlert extends Component {
      * @param type : info, success, warning, error
      * @param html
      */
-    showHTML = function(type, html){
-        if(arguments.length == 0){
-            type = this.AlertType.error
+    showHTML = function (type, html) {
+        if (arguments.length == 0) {
+            type = this.props.AlertType.error
             html = 'showMsg 参数缺失'
-        }else if(arguments.length == 1){
-            type = this.AlertType.info
+        } else if (arguments.length == 1) {
+            type = this.props.AlertType.info
         }
         Alert[type](html, {
             position: 'top-right',
@@ -59,11 +61,11 @@ export default class ComponentAlert extends Component {
      * @param msg
      */
     showMsgTop = function (type, msg) {
-        if(arguments.length == 0){
-            type = this.AlertType.error
+        if (arguments.length == 0) {
+            type = this.props.AlertType.error
             msg = 'showMsgTop 参数缺失'
-        }else if(arguments.length == 1){
-            type = this.AlertType.info
+        } else if (arguments.length == 1) {
+            type = this.props.AlertType.info
         }
         Alert[type](msg, {
             position: 'top'
@@ -73,12 +75,12 @@ export default class ComponentAlert extends Component {
      * @param type : info, success, warning, error
      * @param html
      */
-    showHTMLTop = function(type, html){
-        if(arguments.length == 0){
-            type = this.AlertType.error
+    showHTMLTop = function (type, html) {
+        if (arguments.length == 0) {
+            type = this.props.AlertType.error
             html = 'showMsg 参数缺失'
-        }else if(arguments.length == 1){
-            type = this.AlertType.info
+        } else if (arguments.length == 1) {
+            type = this.props.AlertType.info
         }
         Alert[type](html, {
             position: 'top',

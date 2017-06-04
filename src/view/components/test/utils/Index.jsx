@@ -8,7 +8,8 @@ import SelectPulsTest from './SelectPulsTest'
 import CalenderPanelPulsTest from './CalenderPanelPulsTest'
 import AlertContainerTest from './AlertContainerTest'
 import AlertTest from './alert/AlertTest'
-
+import LazyLoad from 'react-lazyload'
+import SpinTest from './antd/SpinTest'
 
 export default class Index extends Component {
     constructor(props) {
@@ -19,7 +20,7 @@ export default class Index extends Component {
     }
 
     callback() {
-       //window.console.log('i', index)
+        //window.console.log('i', index)
     }
 
     render() {
@@ -34,7 +35,9 @@ export default class Index extends Component {
                 <Grid>
                     <Tabset activeTab={this.state.tabIndex} tabCallback={::this.callback}>
                         <Tab heading='TextArea' key="1">
-                            <TextArea />
+                            <LazyLoad>
+                                <TextArea />
+                            </LazyLoad>
                         </Tab>
                         <Tab heading='InputPuls' key="2">
                             <InputPulsTest />
@@ -49,10 +52,15 @@ export default class Index extends Component {
                             <CalenderPanelPulsTest />
                         </Tab>
                         <Tab heading='AlertContainerTest' key="6">
-                            <AlertContainerTest />
+                            <LazyLoad>
+                                <AlertContainerTest />
+                            </LazyLoad>
                         </Tab>
                         <Tab heading='AlertTest' key="7">
                             <AlertTest />
+                        </Tab>
+                        <Tab heading='SpinTest' key="8">
+                            <SpinTest />
                         </Tab>
                     </Tabset>
                 </Grid>

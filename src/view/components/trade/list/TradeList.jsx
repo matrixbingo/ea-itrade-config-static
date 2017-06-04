@@ -19,6 +19,7 @@ export default class TradeList extends Component {
         this.pageNo = 1
         this.sortType = true
         this.state = {
+            refreshRow:false,
             toastType: 'success',
             toastMsg: ''
         }
@@ -43,7 +44,7 @@ export default class TradeList extends Component {
         this.setValueByReducers('TradeModel.search', search)
     }
 
-    callback(page) {
+    pageCallback(page) {
         let search = this.getValueByReducers('TradeModel.search').toJS()
         search.bin = this.formatTime(search.bin)
         search.end = this.formatTime(search.end)
@@ -80,6 +81,7 @@ export default class TradeList extends Component {
     }
 
     sort(type) {
+        this.tradeRow.clearCode()
         this.desc = !this.desc
         let search = this.getValueByReducers('TradeModel.search').toJS()
         search.bin = this.formatTime(search.bin)
@@ -189,7 +191,7 @@ export default class TradeList extends Component {
                                 <span className="cursor" onClick={this.sort.bind(_this, 'buy')}>卖出</span>
                             </Col>
                         </Row>
-                        {list && <TradeRow {...this.props} list={list} pageNo={search.page} pageSize={search.pageSize}/>}
+                        {list && <TradeRow {...this.props} list={list} pageNo={search.page} pageSize={search.pageSize} ref={(e)=>this.tradeRow=e}/>}
                     </PanelHeader>
                     <PanelContent>
                         <Row className="paging-margin">
@@ -197,7 +199,7 @@ export default class TradeList extends Component {
                             <Col sm={11}>
                                 <Paging showItemsNumber={true} loadPageCallback={::this.loadPageCallback}
                                         currentPage={search.page} pageSize={search.pageSize}
-                                        pageCallback={::this.callback} total={totals && totals > 0 ? totals : 0}/>
+                                        pageCallback={::this.pageCallback} total={totals && totals > 0 ? totals : 0}/>
                             </Col>
                         </Row>
                     </PanelContent>
