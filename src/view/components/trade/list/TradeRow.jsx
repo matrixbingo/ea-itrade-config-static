@@ -8,7 +8,7 @@ import TradUtil from '../common/common'
 import {DataUtil} from '../../utils/util/Index'
 import Msg from '../../utils/chart/TradeHistoryChart'
 import RowImgList from './RowImgList/RowImgList'
-
+import {Tooltip} from 'antd'
 
 export default class TradeRow extends Component {
 
@@ -76,25 +76,41 @@ export default class TradeRow extends Component {
                         return <div key={page}>
                             <Row className={rowColor}>
                                 <Col sm={1} className="text-align-center">
-                                    <Msg value={page++} ele={ele.toJS()} {..._this.props} />
+                                    <Tooltip placement="top" title={<span>历史成交单</span>}>
+                                        <Msg value={page++} ele={ele.toJS()} {..._this.props} />
+                                    </Tooltip>
                                 </Col>
                                 <Col style={{width: '14%'}} className="text-align-center">
-                                    {TradUtil.getType(ele.get('type'))}
+
+                                    <Tooltip placement="top" title={<span>同花顺f10</span>}>
+                                        <a href={TradUtil.getStockUrl(ele.get('code'), 'f10.10jqka')}
+                                           target="_blank">{TradUtil.getType(ele.get('type'))}</a>
+                                    </Tooltip>
                                 </Col>
                                 <Col style={{width: '11%'}} className="text-align-center">
-                                    {DataUtil.Date.formatTime(ele.get('time'))}
+                                    <Tooltip placement="top" title={<span>东财f10</span>}>
+                                        <a href={TradUtil.getStockUrl(ele.get('code'), 'f10.eastmoney')}
+                                           target="_blank">{DataUtil.Date.formatTime(ele.get('time'))}</a>
+                                    </Tooltip>
                                 </Col>
                                 <Col sm={1} className="text-align-center">
-                                    <span style={{cursor: 'pointer'}}
-                                          onClick={this.toggle.bind(this, ele.toJS().code, page)}>
-                                        {ele.get('code')}
-                                    </span>
+                                    <Tooltip placement="top" title={<span>分时与K线</span>}>
+                                        <span style={{cursor: 'pointer'}}
+                                              onClick={this.toggle.bind(this, ele.toJS().code, page)}>
+                                            {ele.get('code')}
+                                        </span>
+                                    </Tooltip>
                                 </Col>
                                 <Col sm={1} className="text-align-center">
-                                    <a href={url} target="_blank">{ele.get('name')}</a>
+                                    <Tooltip placement="top" title={<span>新浪财经</span>}>
+                                        <a href={url} target="_blank">{ele.get('name')}</a>
+                                    </Tooltip>
                                 </Col>
                                 <Col sm={1} className="text-align-center" style={colColor}>
-                                    {ele.get('price')}
+                                    <Tooltip placement="top" title={<span>qq财经</span>}>
+                                        <a href={TradUtil.getStockUrl(ele.get('code'), 'stockhtm.qq')}
+                                           target="_blank">{ele.get('price')}</a>
+                                    </Tooltip>
                                 </Col>
                                 <Col sm={1} className="text-align-center" style={colColor}>
                                     {ele.get('range')}
@@ -115,7 +131,7 @@ export default class TradeRow extends Component {
                             </Row>
                             <RowImgList code={ele.toJS().code} page={page}
                                         curCode={this.state.code} curPage={this.state.page}
-                                        shouldUpdate={this.state.shouldUpdate} />
+                                        shouldUpdate={this.state.shouldUpdate}/>
                         </div>
                     })
                 }

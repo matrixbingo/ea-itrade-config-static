@@ -20,9 +20,18 @@ TradUtil.formatCode = function (code) {
     return 'sz' + code
 }
 
-TradUtil.getStockUrl = function (code) {
-    //return 'http://stockhtm.finance.qq.com/sstock/ggcx/' + code + '.shtml'
-    return 'http://finance.sina.com.cn/realstock/company/' + TradUtil.formatCode(code) + '/nc.shtml'
+TradUtil.getStockUrl = function (code, type) {
+    if(!type){
+        return 'http://finance.sina.com.cn/realstock/company/' + TradUtil.formatCode(code) + '/nc.shtml'
+    }
+    switch (type){
+        //qq财经
+        case 'stockhtm.qq' : return 'http://stockhtm.finance.qq.com/sstock/ggcx/' + code + '.shtml'
+        //东财f10
+        case 'f10.eastmoney': return 'http://f10.eastmoney.com/f10_v2/ShareholderResearch.aspx?type=soft&code=' + TradUtil.formatCode(code) + '&timetip=' + Date.parse(new Date())
+        //同花顺f10
+        case 'f10.10jqka' : return 'http://basic.10jqka.com.cn/new/' + code + '/holder.html'
+    }
 }
 
 export default TradUtil
