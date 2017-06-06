@@ -9,7 +9,7 @@ export default class TestModel {
     static updateIndex = -1
 
     static textArea = {
-        value: '1902-212-1212'
+        value: '1902-212-1212232323'
     }
     static inputPuls = {
         value: 'inputPlus'
