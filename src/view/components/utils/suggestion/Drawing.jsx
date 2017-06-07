@@ -15,7 +15,6 @@ export default class Drawing extends Component {
 
     calculateSize(delta = 0) {
         let {size, show} = this.props
-
         return {width: (size + delta) + 'px', height: (size + delta) + 'px', visibility: show ? 'visible' : 'hidden'}
     }
 
@@ -23,8 +22,8 @@ export default class Drawing extends Component {
         let inlineStyle = {width: this.calculateSize(-5).width}
         return (
             <div style={this.calculateSize()} className='common-input-cancel-button' {...this.props}>
-                <i style={inlineStyle} className={'left-rotate'}></i>
-                <i style={inlineStyle} className={'right-rotate'}></i>
+                <i style={inlineStyle} className={'left-rotate'} />
+                <i style={inlineStyle} className={'right-rotate'} />
             </div>
         )
     }

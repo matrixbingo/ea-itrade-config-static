@@ -5,7 +5,7 @@ import BaseControl from '../base/BaseControl'
 @Control(TradeModel)
 export default class TradeControl extends BaseControl {
 
-    static loadTradeList(param, _this) {
-        return ::this.ajaxGet('/trade/search', param, 'tradeList', _this)
+    static loadTradeList(param, _this, callback) {
+        return ::this.ajaxGet('/trade/search', param, 'tradeList', _this, callback)
     }
 }

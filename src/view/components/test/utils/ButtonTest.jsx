@@ -8,10 +8,13 @@ export default class ButtonTest extends Component {
     }
 
     enterLoading = () => {
-        this.setState({loading:!this.state.loading})
+        this.setState({loading: !this.state.loading})
     }
 
     enterIconLoading = () => {
+        this.setState({iconLoading: !this.state.iconLoading})
+    }
+    change = () => {
         this.setState({iconLoading: !this.state.iconLoading})
     }
 
@@ -28,11 +31,11 @@ export default class ButtonTest extends Component {
         <Button type="primary" loading={this.state.loading} onClick={this.enterLoading}>
           Click me!
         </Button>
-        <Button type="primary" icon="search" loading={this.state.iconLoading} onClick={this.enterIconLoading}>
+        <Button type="primary" icon="search" size='large' loading={this.state.iconLoading} onClick={this.enterIconLoading}>
           Click me!
         </Button>
         <br />
-        <Button shape="circle" loading/>
+        <Button shape="circle" loading onClick={this.change}/>
         <Button type="primary" shape="circle" loading/>
       </span>
         )

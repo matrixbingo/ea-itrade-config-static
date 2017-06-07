@@ -1,16 +1,24 @@
 /**
  * Created by liang.wang on 16/9/29.
  */
-import React, {Component} from 'react'
+import React, {PropTypes} from 'react'
+import Component from '../base/Component'
 import {findDOMNode} from 'react-dom'
-import {fetch} from 'eg-tools'
+import {fetch} from 'ea-react-dm'
 import Drawing from './Drawing.jsx'//js图形界面
-import {DataUtil} from '../../../utils/utils.es6'
+import {DataUtil} from '../util/Index'
 import $ from 'jquery'
 
 export default class DropDownSuggestion extends Component {
+    static propTypes = {
+        /**
+         * 是否只读
+         */
+        url: PropTypes.string.isRequired
 
+    }
     static defaultProps = {
+        url: '',
         format: {leng: 50, title: {'name': ' - ', 'ad': ' - ', 'organizationName': ''}},
         placeholder: '请填写姓名',
         valueLink: '',
@@ -44,11 +52,11 @@ export default class DropDownSuggestion extends Component {
         let targetContact
         if (initData) {
             targetContact = initData
-            this.props.setValueByReducers(this.props.valueLink, initData)
+            this.setValueByReducers(this.props.valueLink, initData)
         }
 
         if (!initData && this.props.valueLink) {
-            targetContact = this.props.getValueByReducers(this.props.valueLink)
+            targetContact = this.getValueByReducers(this.props.valueLink)
         }
         //console.log('targetContact', targetContact)
 
@@ -80,7 +88,7 @@ export default class DropDownSuggestion extends Component {
     }
 
     componentWillReceiveProps(props) {
-        if (!DataUtil.isEqual(props.initData, this.state.initData)) {
+        if (this.state.initData && !DataUtil.isEqual(props.initData, this.state.initData)) {
             this.setState({
                 initData: props.initData
             })
@@ -167,7 +175,7 @@ export default class DropDownSuggestion extends Component {
             title: title
         })
         this.formData = ele
-        this.props.setValueByReducers(this.props.valueLink, ele)
+        this.setValueByReducers(this.props.valueLink, ele)
     }
 
     renderTitleFunc(ele) {
@@ -223,14 +231,14 @@ export default class DropDownSuggestion extends Component {
                 targetContact: formGroup[renderIndex],
                 title: this.renderTitleFunc(formGroup[renderIndex])
             })
-            this.props.setValueByReducers(this.props.valueLink, formGroup[renderIndex])
+            this.setValueByReducers(this.props.valueLink, formGroup[renderIndex])
         } else {
             this.setState({
                 pressToIndex: renderIndex,
                 targetContact: {},
                 title: ''
             })
-            this.props.setValueByReducers(this.props.valueLink, {})
+            this.setValueByReducers(this.props.valueLink, {})
         }
         this.formData = this.state.targetContact
     }
@@ -273,7 +281,7 @@ export default class DropDownSuggestion extends Component {
         })
         this.formData = {}
         this.node.value = ''
-        this.props.setValueByReducers(this.props.valueLink, {})
+        this.setValueByReducers(this.props.valueLink, {})
     }
 
     getSelected() {
@@ -302,7 +310,7 @@ export default class DropDownSuggestion extends Component {
                         })
                     }
                 </ul>
-            </div> : <div></div>
+            </div> : <div/>
         if (status) {
             XML = null
         }

@@ -65,6 +65,7 @@ export default class TestModel {
     static calenderPanelPuls = {
         bin: '1902-11-11'
     }
+    static stocks = {}
     /* static queryBookTypes(data, action){
 
      if(action.data){

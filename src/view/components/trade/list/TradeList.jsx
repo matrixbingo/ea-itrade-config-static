@@ -3,7 +3,8 @@
  */
 import React from 'react'
 import Component from '../../utils/base/ComponentAlert'
-import {Row, Col, Panel, PanelHeader, PanelContent, Paging, Select, Button} from 'eagle-ui'
+import {Row, Col, Panel, PanelHeader, PanelContent, Paging, Select} from 'eagle-ui'
+import {Button} from 'antd'
 import TradeRow from './TradeRow'
 import {View} from 'ea-react-dm'
 import './TradeRow.less'
@@ -19,9 +20,10 @@ export default class TradeList extends Component {
         this.pageNo = 1
         this.sortType = true
         this.state = {
-            refreshRow:false,
+            refreshRow: false,
             toastType: 'success',
-            toastMsg: ''
+            toastMsg: '',
+            iconLoading: false
         }
 
         this.searchParam = {
@@ -71,13 +73,18 @@ export default class TradeList extends Component {
     }
 
     searchList() {
-        let search = this.getValueByReducers('TradeModel.search').toJS()
-        search.bin = this.formatTime(search.bin)
-        search.end = this.formatTime(search.end)
-        search.page = 1
-        this.props.loadTradeList(search, this)
-        this.setValueByReducers('TradeModel.search', search)
-        window.console.log('查询列表', search)
+        const _this = this
+        this.setState({iconLoading: !this.state.iconLoading}, () => {
+            let search = _this.getValueByReducers('TradeModel.search').toJS()
+            search.bin = _this.formatTime(search.bin)
+            search.end = _this.formatTime(search.end)
+            search.page = 1
+            _this.props.loadTradeList(search, _this, (_this) => {
+                _this.setState({iconLoading: !_this.state.iconLoading})
+            })
+            _this.setValueByReducers('TradeModel.search', search)
+            window.console.log('查询列表', search)
+        })
     }
 
     sort(type) {
@@ -152,7 +159,11 @@ export default class TradeList extends Component {
                                                {...this.props} placeholder="结束时间"/>
                         </Col>
                         <Col sm={2}>
-                            <Button radius egSize="sm" block onClick={::this.searchList}>查询</Button>
+                            <Button style={{width: '100%', height: '42px'}} type="primary" icon="search" size='large'
+                                    loading={this.state.iconLoading}
+                                    onClick={::this.searchList}>
+                                查询
+                            </Button>
                         </Col>
                     </Row>
                     <PanelHeader className="marginSpacePanelHeader">
@@ -191,7 +202,8 @@ export default class TradeList extends Component {
                                 <span className="cursor" onClick={this.sort.bind(_this, 'buy')}>卖出</span>
                             </Col>
                         </Row>
-                        {list && <TradeRow {...this.props} list={list} pageNo={search.page} pageSize={search.pageSize} ref={(e)=>this.tradeRow=e}/>}
+                        {list && <TradeRow {...this.props} list={list} pageNo={search.page} pageSize={search.pageSize}
+                                           ref={(e) => this.tradeRow = e}/>}
                     </PanelHeader>
                     <PanelContent>
                         <Row className="paging-margin">
