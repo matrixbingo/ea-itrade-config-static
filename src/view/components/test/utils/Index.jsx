@@ -10,6 +10,7 @@ import AlertContainerTest from './AlertContainerTest'
 import AlertTest from './alert/AlertTest'
 import LazyLoad from 'react-lazyload'
 import SpinTest from './antd/SpinTest'
+import ButtonTest from './ButtonTest'
 
 export default class Index extends Component {
     constructor(props) {
@@ -61,6 +62,9 @@ export default class Index extends Component {
                         </Tab>
                         <Tab heading='SpinTest' key="8">
                             <SpinTest />
+                        </Tab>
+                        <Tab heading='ButtonTest' key="9">
+                            <ButtonTest />
                         </Tab>
                     </Tabset>
                 </Grid>
