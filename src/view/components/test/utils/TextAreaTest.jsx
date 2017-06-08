@@ -58,7 +58,9 @@ export default class TestTestArea extends Component{
                                    disabled={this.state.textArea.disabled}
                                    viewOnly={this.state.textArea.viewOnly} />
                     </Col>
-                    <Col sm={1} />
+                    <Col sm={1} >
+                        {this.props['testmodel'].get('textArea').get('value')}
+                    </Col>
                 </Row>
             </Grid>
         )
