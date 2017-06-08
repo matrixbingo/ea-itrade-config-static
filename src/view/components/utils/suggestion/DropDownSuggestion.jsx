@@ -8,6 +8,8 @@ import {fetch} from 'ea-react-dm'
 import Drawing from './Drawing.jsx'//js图形界面
 import {DataUtil} from '../util/Index'
 import $ from 'jquery'
+import './DropDownSuggestion.less'
+import {rtools} from '../../../pages/Index'
 
 export default class DropDownSuggestion extends Component {
     static propTypes = {
@@ -23,8 +25,8 @@ export default class DropDownSuggestion extends Component {
         placeholder: '请填写姓名',
         valueLink: '',
         initData: null, //Immutable 格式
-        cancelCallback: function () {
-        }
+        cancelCallback: function () {},
+        selectedCallback:function () {}
     }
 
     constructor(props, context) {
@@ -49,9 +51,8 @@ export default class DropDownSuggestion extends Component {
         if (!initData && !this.props.valueLink) {
             window.console.error('DropDownSuggestion 未设置 valueLink 或 initData')
         }
-        let targetContact
+        let targetContact = initData
         if (initData) {
-            targetContact = initData
             this.setValueByReducers(this.props.valueLink, initData)
         }
 
@@ -61,13 +62,13 @@ export default class DropDownSuggestion extends Component {
         //console.log('targetContact', targetContact)
 
         const _this = this
-        setTimeout(function () {
+        //setTimeout(function () {
             if (targetContact && DataUtil.is.Object(targetContact)) {
                 _this.clickHandler(targetContact)
             } else {
                 _this.cancelInput()
             }
-        }, 500)
+        //}, 500)
     }
 
     /**
@@ -129,12 +130,34 @@ export default class DropDownSuggestion extends Component {
         that.setState({
             title: value,
             status: false
+        }, ()=>{
+            rtools.constructor.addLoadingBar({run: () => {}, end: () => {}})
+            fetch(url + '?keyword=' + encodeURI(value), {
+                method: 'GET',
+                timeout: 30000
+            }).then((data) => {
+                /**
+                 * 保证最后输入的结果肯定会被执行，同时优化react渲染时机
+                 * @type {T}
+                 */
+                let lastValue = [].slice.call(that.node.eventArray).pop()
+                if (lastValue == value) {
+                    that.setState({
+                        formGroup: data.msg || data || [],
+                        targetContact: {}
+                    })
+                }
+            }, (error) => {
+                window.console.error('ajaxGet : ' + url + ' error!!', error)
+            })
         })
-        fetch(url + '?keyword=' + encodeURI(value), {}, function (data) {
-            /**
+
+
+     /*   fetch(url + '?keyword=' + encodeURI(value), {}, function (data) {
+            /!**
              * 保证最后输入的结果肯定会被执行，同时优化react渲染时机
              * @type {T}
-             */
+             *!/
             let lastValue = [].slice.call(that.node.eventArray).pop()
             if (lastValue == value) {
                 that.setState({
@@ -142,7 +165,7 @@ export default class DropDownSuggestion extends Component {
                     targetContact: {}
                 })
             }
-        }, '', {isLoadingBar: false})
+        }, '', {isLoadingBar: false})*/
     }
 
     /**
@@ -176,6 +199,7 @@ export default class DropDownSuggestion extends Component {
         })
         this.formData = ele
         this.setValueByReducers(this.props.valueLink, ele)
+        this.props.selectedCallback && this.props.selectedCallback(ele, this)
     }
 
     renderTitleFunc(ele) {
@@ -241,6 +265,7 @@ export default class DropDownSuggestion extends Component {
             this.setValueByReducers(this.props.valueLink, {})
         }
         this.formData = this.state.targetContact
+        this.props.selectedCallback && this.props.selectedCallback(this.formData, this)
     }
 
     keyHandler(event) {
@@ -280,7 +305,9 @@ export default class DropDownSuggestion extends Component {
             title: ''
         })
         this.formData = {}
-        this.node.value = ''
+        if(this.node){
+            this.node.value = ''
+        }
         this.setValueByReducers(this.props.valueLink, {})
     }
 

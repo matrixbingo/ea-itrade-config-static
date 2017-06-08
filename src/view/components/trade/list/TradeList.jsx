@@ -10,6 +10,7 @@ import {View} from 'ea-react-dm'
 import './TradeRow.less'
 import {CalendarPanelPlus, InputPlus} from '../../utils/index'
 import TradeControl from '../../../../controller/trade/TradeControl'
+import {DropDownSuggestion} from '../../utils/index'
 
 @View(TradeControl)
 export default class TradeList extends Component {
@@ -127,8 +128,16 @@ export default class TradeList extends Component {
                     </Row>
                     <Row>
                         <Col sm={1} className="col-lr">
-                            <InputPlus {...this.props} valueLink='TradeModel.search.code'
-                                       placeholder='code'/>
+                            <div style={{fontSize: '12px', verticalAlign: 'top'}}>
+                                <DropDownSuggestion url={'/stock/search'} {...this.props}
+                                                    ref={e => _this.dropDownSuggestionPlus = e}
+                                                    format={{leng: 40, title: {'code': ' - ', 'name': ''}}}
+                                                    valueLink='TestModel.stocks'
+                                                    placeholder="请输入关键字" />
+                            </div>
+
+                           {/* <InputPlus {...this.props} valueLink='TradeModel.search.code'
+                                       placeholder='code'/>*/}
                         </Col>
                         <Col sm={2} className="col-lr">
                             <InputPlus {...this.props} valueLink='TradeModel.search.name'

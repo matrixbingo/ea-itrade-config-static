@@ -45,11 +45,7 @@ export default class TradeHistoryChart extends Component {
             this.setState({
                 loading:true
             }, ()=>{
-                rtools.constructor.addLoadingBar({
-                    run: () => {
-                    }, end: () => {
-                    }
-                })
+                rtools.constructor.addLoadingBar({run: () => {}, end: () => {}})
                 const url = actionType.BASE_URL + '/trade/stock/buysel'
                 fetch(url + '?time=' + time + '&code=' + code + '&type=' + type, {
                     method: 'GET',
