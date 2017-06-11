@@ -6,21 +6,11 @@ import TestControl from '../../../controller/test/TestControl'
 import BaseControl from '../../../controller/base/BaseControl'
 import BookList from './BookList'
 import '../../styles/test.less'
-import { stock } from 'tushare';
 
 @View([TestControl, BaseControl])
 export default class Test extends Component {
     constructor(props) {
         super(props)
-        const options = {
-            code: '600111',
-            ktype:'day',
-            start: '2015-01-01',
-            end: '2016-10-22'
-        }
-        stock.getHistory(options).then(({ data }) => {
-            window.console.log('stock.getHistory', data)
-        })
     }
 
     render() {
