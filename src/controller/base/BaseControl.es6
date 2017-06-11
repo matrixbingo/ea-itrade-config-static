@@ -20,7 +20,7 @@ export const ajax = {
     }
 }
 
-export default class BaseControl extends Action {
+export default class BaseControl extends Action{
     @LoadingBar('mosk')
     static ajaxGetMosk(url, param, valueLink, _this, callBack) {
         return ajax.fetch(this, 'GET', url, param, valueLink, _this, callBack)

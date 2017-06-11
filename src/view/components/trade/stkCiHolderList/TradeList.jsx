@@ -9,18 +9,21 @@ import TradeRow from './TradeRow'
 import {View} from 'ea-react-dm'
 import './TradeRow.less'
 import {CalendarPanelPlus, InputPlus} from '../../utils/index'
-import TradeControl from '../../../../controller/trade/TradeControl'
+import StkCiHolderController from '../../../../controller/trade/StkCiHolderController'
 import {DropDownSuggestion} from '../../utils/index'
+import {Icon} from 'antd'
 
-@View(TradeControl)
+@View(StkCiHolderController)
 export default class TradeList extends Component {
 
     constructor(props, context) {
         super(props, context)
+        this.ModelName = 'StkCiHolderModel'
         this.pageSize = 10
         this.pageNo = 1
         this.sortType = true
         this.state = {
+            expand: 'up',
             refreshRow: false,
             toastType: 'success',
             toastMsg: '',
@@ -38,29 +41,29 @@ export default class TradeList extends Component {
     }
 
     loadPageCallback(ps) {
-        let search = this.getValueByReducers('TradeModel.search').toJS()
+        let search = this.getValueByReducers(this.ModelName + '.search').toJS()
         search.bin = this.formatTime(search.bin)
         search.end = this.formatTime(search.end)
         search.page = 1
         search.pageSize = parseInt(ps)
         this.props.loadTradeList(search, this)
-        this.setValueByReducers('TradeModel.search', search)
+        this.setValueByReducers(this.ModelName + '.search', search)
     }
 
     pageCallback(page) {
-        let search = this.getValueByReducers('TradeModel.search').toJS()
+        let search = this.getValueByReducers(this.ModelName + '.search').toJS()
         search.bin = this.formatTime(search.bin)
         search.end = this.formatTime(search.end)
         search.page = page
         this.props.loadTradeList(search, this)
-        this.setValueByReducers('TradeModel.search', search)
+        this.setValueByReducers(this.ModelName + '.search', search)
     }
 
     chooseApproveStatus(value, key) {
         this.setState({
             approveStatus: key
         })
-        this.setValueByReducers('TradeModel.search.type', value)
+        this.setValueByReducers(this.ModelName + '.search.type', value)
         //console.log('value,key,type', value, key, type)
     }
 
@@ -76,14 +79,16 @@ export default class TradeList extends Component {
     searchList() {
         const _this = this
         this.setState({iconLoading: !this.state.iconLoading}, () => {
-            let search = _this.getValueByReducers('TradeModel.search').toJS()
+            let search = _this.getValueByReducers(this.ModelName + '.search').toJS()
+            const stock = _this.getValueByReducers(this.ModelName + '.stock').toJS()
             search.bin = _this.formatTime(search.bin)
             search.end = _this.formatTime(search.end)
             search.page = 1
+            search.code = stock.code
             _this.props.loadTradeList(search, _this, (_this) => {
                 _this.setState({iconLoading: !_this.state.iconLoading})
             })
-            _this.setValueByReducers('TradeModel.search', search)
+            _this.setValueByReducers(this.ModelName + '.search', search)
             window.console.log('查询列表', search)
         })
     }
@@ -91,20 +96,25 @@ export default class TradeList extends Component {
     sort(type) {
         this.tradeRow.clearCode()
         this.desc = !this.desc
-        let search = this.getValueByReducers('TradeModel.search').toJS()
+        let search = this.getValueByReducers(this.ModelName + '.search').toJS()
         search.bin = this.formatTime(search.bin)
         search.end = this.formatTime(search.end)
         search.sort = type
         search.sortType = this.desc
         window.console.log('查询列表', search)
         this.props.loadTradeList(search, this)
-        this.setValueByReducers('TradeModel.search', search)
+        this.setValueByReducers(this.ModelName + '.search', search)
+    }
+
+    toggle = () => {
+        const {expand} = this.state
+        this.setState({expand: !expand})
     }
 
     render() {
         const _this = this
-        let tradeList = this.getValueByReducers('TradeModel.tradeList')
-        const search = this.getValueByReducers('TradeModel.search').toJS()
+        let tradeList = this.getValueByReducers(this.ModelName + '.tradeList')
+        const search = this.getValueByReducers(this.ModelName + '.search').toJS()
         const list = tradeList.get('list')
         let totals
         if (tradeList) {
@@ -117,34 +127,7 @@ export default class TradeList extends Component {
                 <Panel className="marginTopSpace">
                     <Row>
                         <Col sm={1} className="col-lr">
-                            <InputPlus {...this.props} valueLink='TradeModel.search.rabin'
-                                       placeholder='涨幅'/>
-                        </Col>
-                        <Col sm={1} className="col-lr">
-                            <InputPlus {...this.props} valueLink='TradeModel.search.raend'
-                                       placeholder='涨幅'/>
-                        </Col>
-                        <Col sm={10}/>
-                    </Row>
-                    <Row>
-                        <Col sm={1} className="col-lr">
-                            <div style={{fontSize: '12px', verticalAlign: 'top'}}>
-                                <DropDownSuggestion url={'/stock/search'} {...this.props}
-                                                    ref={e => _this.dropDownSuggestionPlus = e}
-                                                    format={{leng: 40, title: {'code': ' - ', 'name': ''}}}
-                                                    valueLink='TestModel.stocks'
-                                                    placeholder="请输入关键字" />
-                            </div>
-
-                           {/* <InputPlus {...this.props} valueLink='TradeModel.search.code'
-                                       placeholder='code'/>*/}
-                        </Col>
-                        <Col sm={2} className="col-lr">
-                            <InputPlus {...this.props} valueLink='TradeModel.search.name'
-                                       placeholder='name'/>
-                        </Col>
-                        <Col sm={1} className="col-lr">
-                            <InputPlus {...this.props} valueLink='TradeModel.search.nums'
+                            <InputPlus {...this.props} valueLink={this.ModelName + '.search.nums'}
                                        placeholder='次数'/>
                         </Col>
                         <Col sm={2} className="col-lr">
@@ -159,56 +142,77 @@ export default class TradeList extends Component {
                         </Col>
                         <Col sm={2} className="col-lr">
                             <CalendarPanelPlus startDate="1900-01-01"
-                                               valueLink='TradeModel.search.bin'
+                                               valueLink={this.ModelName + '.search.bin'}
                                                {...this.props} placeholder="开始时间"/>
                         </Col>
                         <Col sm={2} className="col-lr">
                             <CalendarPanelPlus startDate="1900-01-01"
-                                               valueLink='TradeModel.search.end'
+                                               valueLink={this.ModelName + '.search.end'}
                                                {...this.props} placeholder="结束时间"/>
                         </Col>
-                        <Col sm={2}>
+                        <Col className="col-lr" style={{width: '22%'}} end>
+                            <div style={{fontSize: '12px', verticalAlign: 'top'}}>
+                                <DropDownSuggestion url={'/stock/search'} {...this.props}
+                                                    ref={e => _this.dropDownSuggestionPlus = e}
+                                                    format={{leng: 40, title: {'code': ' - ', 'name': ''}}}
+                                                    valueLink={this.ModelName + '.stock'}
+                                                    placeholder="请输入关键字"/>
+                            </div>
+                        </Col>
+                        <Col sm={2} className="col-lr" style={{width: '14%'}}>
                             <Button style={{width: '100%', height: '42px'}} type="primary" icon="search" size='large'
                                     loading={this.state.iconLoading}
                                     onClick={::this.searchList}>
                                 查询
                             </Button>
                         </Col>
+                        <Col style={{width: '5%', padding: '15px'}}>
+                            <a style={{marginLeft: 8, fontSize: 12}} onClick={this.toggle}>
+                                <Icon style={{fontSize: '17px'}} type={this.state.expand ? 'up' : 'down'}/>
+                            </a>
+                        </Col>
                     </Row>
+                    <div style={{display: this.state.expand ? 'none' : 'block'}}>
+                        <Row>
+                            <Col sm={2} className="col-lr">
+                                <InputPlus {...this.props} valueLink={this.ModelName + '.search.rabin'}
+                                           placeholder='涨幅'/>
+                            </Col>
+                            <Col sm={2} className="col-lr">
+                                <InputPlus {...this.props} valueLink={this.ModelName + '.search.raend'}
+                                           placeholder='涨幅'/>
+                            </Col>
+                            <Col sm={8}/>
+                        </Row>
+                    </div>
                     <PanelHeader className="marginSpacePanelHeader">
                         <Row className="panelHeader-background">
-                            <Col sm={1} className="text-align-center">
+                            <Col style={{width: '5%'}} className="text-align-center">
                                 序号
                             </Col>
-                            <Col style={{width: '14%'}} className="text-align-center">
-                                类型
+                            <Col style={{width: '5%'}} className="text-align-center col-lr">
+                                股票名称
                             </Col>
-                            <Col style={{width: '11%'}} className="text-align-center">
-                                <span className="cursor" onClick={this.sort.bind(_this, 'time')}>时间</span>
+                            <Col style={{width: '36%'}} className="text-align-center col-lr">
+                                股东名称
                             </Col>
-                            <Col sm={1} className="text-align-center">
-                                <span className="cursor" onClick={this.sort.bind(_this, 'code')}>代码</span>
+                            <Col sm={1} className="text-align-center col-lr">
+                               公告日期
                             </Col>
-                            <Col sm={1} className="text-align-center">
-                                名称
+                            <Col style={{width: '11%'}} className="text-align-center col-lr">
+                                <span className="cursor" onClick={this.sort.bind(_this, 'time')}>持股数量(万股)</span>
                             </Col>
-                            <Col sm={1} className="text-align-center">
-                                <span className="cursor" onClick={this.sort.bind(_this, 'price')}>价格</span>
+                            <Col style={{width: '8%'}} className="text-align-center col-lr">
+                                <span className="cursor" onClick={this.sort.bind(_this, 'code')}>股份性质</span>
                             </Col>
-                            <Col sm={1} className="text-align-center">
-                                <span className="cursor" onClick={this.sort.bind(_this, 'range')}>涨幅</span>
+                            <Col style={{width: '8%'}} className="text-align-center col-lr">
+                                占流通比
                             </Col>
-                            <Col sm={1} className="text-align-center">
-                                <span className="cursor" onClick={this.sort.bind(_this, 'speed')}>涨速</span>
+                            <Col style={{width: '10%'}} className="text-align-center col-lr">
+                                <span className="cursor" onClick={this.sort.bind(_this, 'price')}>持股变动数(万股)</span>
                             </Col>
-                            <Col sm={1} className="text-align-center">
-                                <span className="cursor" onClick={this.sort.bind(_this, 'stock')}>流通股本</span>
-                            </Col>
-                            <Col sm={1} className="text-align-center">
-                                <span className="cursor" onClick={this.sort.bind(_this, 'buy')}>买入</span>
-                            </Col>
-                            <Col sm={1} className="text-align-center">
-                                <span className="cursor" onClick={this.sort.bind(_this, 'buy')}>卖出</span>
+                            <Col style={{width: '8%'}} className="text-align-center col-lr">
+                                <span className="cursor" onClick={this.sort.bind(_this, 'range')}>持股变动率</span>
                             </Col>
                         </Row>
                         {list && <TradeRow {...this.props} list={list} pageNo={search.page} pageSize={search.pageSize}

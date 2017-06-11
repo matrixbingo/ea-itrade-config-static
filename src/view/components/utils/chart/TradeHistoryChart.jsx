@@ -117,7 +117,7 @@ export default class TradeHistoryChart extends Component {
             },
             series: this.state.series
         }
-        const url = TradUtil.getStockUrl(this.props.ele.code)
+        const url = TradUtil.getStockUrl(this.props.ele)
         return (
             <div className="msg" style={{position: 'relative'}}>
                 <a href={url} onMouseOver={::this.loadData} target="_blank">{this.props.value}</a>

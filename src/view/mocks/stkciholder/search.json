@@ -1,0 +1,52 @@
+{
+  "code": 200,
+  "msg": {
+    "list": [
+      {
+        "id": 1,
+        "yearQuarter": 20170331,
+        "code": "000001",
+        "name": "中国平安保险(集团)股份有限公司－集团本级－自有资金",
+        "nums": 825825,
+        "nature": 3,
+        "ratio": 48.1,
+        "type": 2,
+        "change": 228681,
+        "changeRdtio": 27.689999999999998,
+        "ctime": null,
+        "utime": null
+      },
+      {
+        "id": 1,
+        "yearQuarter": 20170331,
+        "code": "000001",
+        "name": "中国平安保险(集团)股份有限公司－集团本级－自有资金",
+        "nums": 825825,
+        "nature": 3,
+        "ratio": 48.1,
+        "type": 2,
+        "change": 228681,
+        "changeRdtio": 27.689999999999998,
+        "ctime": null,
+        "utime": null
+      },
+      {
+        "id": 1,
+        "yearQuarter": 20170331,
+        "code": "000001",
+        "name": "中国平安保险(集团)股份有限公司－集团本级－自有资金",
+        "nums": 825825,
+        "nature": 3,
+        "ratio": 48.1,
+        "type": 2,
+        "change": 228681,
+        "changeRdtio": 27.689999999999998,
+        "ctime": null,
+        "utime": null
+      }
+    ],
+    "totalCount": 5799,
+    "page": 1,
+    "pageSize": 10
+  }
+}

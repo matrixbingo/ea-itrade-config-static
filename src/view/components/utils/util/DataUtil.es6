@@ -91,7 +91,7 @@ DataUtil.ObjUtils = {
      * @param val
      */
     findWhereIdByVal: function (list, val, id) {
-        (!list || _.isEmpty(list)) && window.console.error('DataUtil.ObjUtils.findWhereIdByVal: list is empty', list, val, id)
+        (!list || _.isEmpty(list)) && window.console.error('DataUtil.ObjUtils.findWhereIdByVal: tradeList is empty', list, val, id)
         !val && window.console.error('DataUtil.ObjUtils.findWhereIdByVal: val is null', list, val, id)
         !id && window.console.error('DataUtil.ObjUtils.findWhereIdByVal: id is null', list, val, id)
         if (_.isArray(list)) {
@@ -112,7 +112,7 @@ DataUtil.ObjUtils = {
      * @param val
      */
     findWhereValById: function (list, id, name) {
-        (!list || _.isEmpty(list)) && window.console.error('DataUtil.ObjUtils.findWhereIdByVal: list is empty', list, id, name)
+        (!list || _.isEmpty(list)) && window.console.error('DataUtil.ObjUtils.findWhereIdByVal: tradeList is empty', list, id, name)
         !id && window.console.error('DataUtil.ObjUtils.findWhereIdByVal: val is null', list, id, name)
         !name && window.console.error('DataUtil.ObjUtils.findWhereIdByVal: id is null', list, id, name)
         if (_.isArray(list)) {

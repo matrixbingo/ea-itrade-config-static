@@ -1,8 +1,8 @@
 import {Model} from 'ea-react-dm'
 import BaseModel from './BaseModel'
 
-@Model
-export default class TradeModel extends BaseModel {
+@Model('StkCiHolderModel')
+export default class StkCiHolderModel extends BaseModel {
     static tradeList = {}
     static search = {
         "rabin": '0',

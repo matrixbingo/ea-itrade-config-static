@@ -1,6 +1,7 @@
 import React, {Component /*,PropTypes*/} from 'react'
 import {Panel, Tabset, Tab} from 'eagle-ui'
-import TradeList from './list/TradeList'
+import TradeList from './tradeList/TradeList'
+import StkCiHolderList from './stkCiHolderList/TradeList'
 import Alert from 'react-s-alert'
 import './Index.less'
 
@@ -25,6 +26,9 @@ export default class Index extends Component {
                             tabCallback={::this.callback}>
                         <Tab heading='主力列表'>
                             <TradeList />
+                        </Tab>
+                        <Tab heading='流通股东'>
+                            <StkCiHolderList />
                         </Tab>
                     </Tabset>
                 </Panel>

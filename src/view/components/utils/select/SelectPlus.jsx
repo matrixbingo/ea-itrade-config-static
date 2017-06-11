@@ -33,7 +33,7 @@ export default class SelectPlus extends Component {
         ])
     }
     /**
-     * @type {{disabled: boolean, viewOnly: boolean, list: {}, param: {id: string, name: string}, placeholder: string, defaultId: null, defaultName: null, valueLink: string, valueLinkName: string, autoClear: boolean, getValueCallback: SelectPlus.defaultProps.getValueCallback}}
+     * @type {{disabled: boolean, viewOnly: boolean, tradeList: {}, param: {id: string, name: string}, placeholder: string, defaultId: null, defaultName: null, valueLink: string, valueLinkName: string, autoClear: boolean, getValueCallback: SelectPlus.defaultProps.getValueCallback}}
      * 优先级 viewOnly > disabled > autoClear
      * defaultChecked 优先级 defaultId > defaultName
      * valueLink <==> id

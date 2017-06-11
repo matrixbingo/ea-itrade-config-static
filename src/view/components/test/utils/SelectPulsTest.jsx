@@ -9,7 +9,7 @@ import '../../../styles/test.less'
 export default class SelectPulsTest extends Component {
     constructor(props) {
         super(props)
-        //const list = this.props.testmodel.toJS().selectPlus.citys1
+        //const tradeList = this.props.testmodel.toJS().selectPlus.citys1
         this.state = {
             list: {
                 1: '上海',
@@ -88,7 +88,7 @@ export default class SelectPulsTest extends Component {
     }
 
     render() {
-        //window.console.log(this.state.list)
+        //window.console.log(this.state.tradeList)
         return (
             <Grid fluid>
                 <Row>

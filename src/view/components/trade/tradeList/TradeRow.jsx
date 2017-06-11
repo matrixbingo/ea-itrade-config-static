@@ -67,7 +67,8 @@ export default class TradeRow extends Component {
                     list && list.map((ele) => {
                         let rowColor = rowNo % 2 == 0 ? 'row-color-odd' : 'row-color-eve'
                         let colColor = ele.get('range') > 0 ? {color: 'red'} : {color: 'green'}
-                        url = TradUtil.getStockUrl(ele.get('code'))
+                        const time = DataUtil.Date.formatTime(ele.get('time'))
+                        url = TradUtil.getStockUrl(ele)
                         if (ele.get('range') == 0) {
                             colColor = {}
                         }
@@ -83,14 +84,14 @@ export default class TradeRow extends Component {
                                 <Col style={{width: '14%'}} className="text-align-center">
 
                                     <Tooltip placement="top" title={<span>同花顺f10</span>}>
-                                        <a href={TradUtil.getStockUrl(ele.get('code'), 'f10.10jqka')}
+                                        <a href={TradUtil.getStockUrl(ele, 'f10.10jqka')}
                                            target="_blank">{TradUtil.getType(ele.get('type'))}</a>
                                     </Tooltip>
                                 </Col>
                                 <Col style={{width: '11%'}} className="text-align-center">
                                     <Tooltip placement="top" title={<span>东财f10</span>}>
-                                        <a href={TradUtil.getStockUrl(ele.get('code'), 'f10.eastmoney')}
-                                           target="_blank">{DataUtil.Date.formatTime(ele.get('time'))}</a>
+                                        <a href={TradUtil.getStockUrl(ele, 'f10.eastmoney')}
+                                           target="_blank">{time}</a>
                                     </Tooltip>
                                 </Col>
                                 <Col sm={1} className="text-align-center">
@@ -108,7 +109,7 @@ export default class TradeRow extends Component {
                                 </Col>
                                 <Col sm={1} className="text-align-center" style={colColor}>
                                     <Tooltip placement="top" title={<span>qq财经</span>}>
-                                        <a href={TradUtil.getStockUrl(ele.get('code'), 'stockhtm.qq')}
+                                        <a href={TradUtil.getStockUrl(ele, 'stockhtm.qq')}
                                            target="_blank">{ele.get('price')}</a>
                                     </Tooltip>
                                 </Col>
@@ -119,7 +120,10 @@ export default class TradeRow extends Component {
                                     {ele.get('speed')}
                                 </Col>
                                 <Col sm={1} className="text-align-center">
-                                    {ele.get('stock')}
+                                    <Tooltip placement="top" title={<span>新浪分价表</span>}>
+                                        <a href={TradUtil.getStockUrl(ele, 'sina.pricehis', {bintime:time,endtime:time})}
+                                           target="_blank">{ele.get('stock')}</a>
+                                    </Tooltip>
                                 </Col>
                                 <Col sm={1} className="text-align-center"
                                      style={ele.get('buy') != 0 ? {color: 'red'} : {}}>
