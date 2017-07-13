@@ -5,7 +5,7 @@ import History from 'history/lib/createHashHistory'
 import Index from '@component/trade/Index'
 import Test from '@component/test/Test'
 import TestIndex from '../../view/components/test/utils/Index'
-//import Taaa from '@component/trade/Taaa'
+import adminlte from '@component/test/adminlte/Index'
 import '../styles/antd.less'
 
 class AppRouter extends Component {
@@ -28,6 +28,7 @@ class AppRouter extends Component {
                     <Route path="/test" component={Test}/>
                     <Route path="/index" component={Index}/>
                     <Route path="/testIndex" component={TestIndex}/>
+                    <Route path="/adminlte" component={adminlte}/>
                     <Redirect from="/" to="/index"/>
                 </Router>
             </div>

@@ -61,6 +61,17 @@ export default class InputPulsTest extends Component {
                                    span={this.state.inputPuls.span} />
                     </Col>
                 </Row>
+                <Row>
+                    <Col sm={7}>
+                        <InputPlus {...this.props} valueLink='testmodel.inputPuls.value'
+                                   viewOnly={this.state.inputPuls.viewOnly}
+                                   validRules={{
+                                       isInt: true,
+                                       maxLength:10
+                                   }}
+                                   span={this.state.inputPuls.span} />
+                    </Col>
+                </Row>
             </Grid>
         )
     }

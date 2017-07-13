@@ -1,5 +1,6 @@
+/*
 import {fetch} from 'ea-react-dm'
-import {Action} from 'ea-react-dm'
+import Action from 'ea-react-dm'
 import FrwkUtil from '../../view/components/utils/util/FrwkUtil'
 import LoadingBar from './LoadingBar'
 
@@ -40,4 +41,4 @@ export default class BaseControl extends Action{
     static ajaxPost(url, param, valueLink, _this, callBack) {
         return ajax.fetch(this, 'POST', url, param, valueLink, _this, callBack)
     }
-}
+}*/

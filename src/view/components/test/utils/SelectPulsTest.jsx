@@ -18,15 +18,16 @@ export default class SelectPulsTest extends Component {
             },
             list2: [
                 {
-                    'cityId': 1,
-                    'city': '上海'
+                    'cityIdaaa': 1,
+                    'city': '上海',
+                    'asas':12121
                 },
                 {
-                    'cityId': 2,
+                    'cityIdaaa': 2,
                     'city': '北京'
                 },
                 {
-                    'cityId': 3,
+                    'cityIdaaa': 3,
                     'city': '广东'
                 }
             ],
@@ -125,18 +126,19 @@ export default class SelectPulsTest extends Component {
                     </Col>
                     <Col sm={7}>
                         <SelectPlus {...this.props} valueLink='testmodel.selectPlus.selectId'
-                                    param={{id: 'cityId', name: 'city'}} defaultId="2" defaultName=""
+                                    param={{id: 'cityIdaaa', name: 'city'}} defaultId="2" defaultName=""
                                     list={this.state.list}
+                                    autoPromp={true}
                                     disabled={this.state.radioPlus.disabled}
-                                    viewOnly={this.state.radioPlus.viewOnly} autoClear={false}/>
+                                    viewOnly={this.state.radioPlus.viewOnly} autoClear={true}/>
                     </Col>
                 </Row>
                 <Row>
-                    <Select readOnly={true} defaultChecked='上海' getValueCallback={this.getValue.bind(this)} placeholder="请选择"
-                            autoClear={false}>
+                    <Select defaultChecked='上海' getValueCallback={this.getValue.bind(this)} placeholder="请选择"
+                            autoClear={true}>
                         {this.state.options}
                     </Select>
-
+                    <div id="showtip" className="color-info" />
                 </Row>
             </Grid>
         )
