@@ -5,7 +5,7 @@ import History from 'history/lib/createHashHistory'
 import Index from '@component/trade/Index'
 import Test from '@component/test/Test'
 import TestIndex from '../../view/components/test/utils/Index'
-import adminlte from '@component/test/adminlte/Index'
+import adminlte from '@component/test/adminlte/Adminlte'
 import '../styles/antd.less'
 
 class AppRouter extends Component {

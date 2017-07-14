@@ -13,6 +13,9 @@ var glob = require("glob");
 var config = require('./system/config/base.config');
 var internalIP = require('internal-ip');
 var flatten = require('gulp-flatten');
+var imagemin = require('gulp-imagemin');
+var smushit = require('gulp-smushit');
+var pngquant = require('imagemin-pngquant');
 
 var devPort = config.devPort;
 
@@ -64,7 +67,6 @@ gulp.task('clean', function () {
         .pipe(clean());
 });
 
-
 gulp.task('html', function () {
     return gulp.src([config.html + '/**/*.html'])
         .pipe(flatten())
@@ -72,5 +74,22 @@ gulp.task('html', function () {
 });
 gulp.task('default', function () {
     runSequence('clean', 'webpack', 'html');
+});
+
+gulp.task('imagemin', function () {
+    return gulp.src('src/*')
+        .pipe(imagemin({
+            progressive: true,
+            use: [pngquant()]
+        }))
+        .pipe(gulp.dest('imagemin-dist'));
+});
+
+gulp.task('smushit', function () {
+    return gulp.src('src/*')
+        .pipe(smushit({
+            verbose: true
+        }))
+        .pipe(gulp.dest('smushit-dist'));
 });
 gulp.task('dev', ['hot', 'open']);
