@@ -1,6 +1,6 @@
 import React, {Component /*,PropTypes*/} from 'react'
 import {Redirect, Router, Route} from 'react-router'
-import {page} from 'ea-react-dm'
+import {page} from 'ea-react-dm-v14'
 import History from 'history/lib/createHashHistory'
 import Index from '@component/trade/Index'
 import Test from '@component/test/Test'

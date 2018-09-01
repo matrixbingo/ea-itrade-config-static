@@ -1,5 +1,5 @@
 import React, {Component /*,PropTypes*/} from 'react'
-//import {View} from 'ea-react-dm'
+//import {View} from 'ea-react-dm-v14'
 import {Grid} from 'eagle-ui'
 import {Spin, Switch, Alert} from 'antd'
 import './antd.less'

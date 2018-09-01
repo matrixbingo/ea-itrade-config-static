@@ -1,4 +1,4 @@
-import {Model} from 'ea-react-dm'
+import {Model} from 'ea-react-dm-v14'
 //import Immutable from 'immutable'
 
 @Model

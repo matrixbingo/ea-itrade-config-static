@@ -1,6 +1,6 @@
 /*
-import {fetch} from 'ea-react-dm'
-import Action from 'ea-react-dm'
+import {fetch} from 'ea-react-dm-v14'
+import Action from 'ea-react-dm-v14'
 import FrwkUtil from '../../view/components/utils/util/FrwkUtil'
 import LoadingBar from './LoadingBar'
 

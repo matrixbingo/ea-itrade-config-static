@@ -4,7 +4,7 @@
 import React, {PropTypes} from 'react'
 import Component from '../base/Component'
 import {findDOMNode} from 'react-dom'
-import {fetch} from 'ea-react-dm'
+import {fetch} from 'ea-react-dm-v14'
 import Drawing from './Drawing.jsx'//js图形界面
 import {DataUtil} from '../util/Index'
 import $ from 'jquery'

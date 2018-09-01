@@ -1,5 +1,5 @@
 import React, {Component /*,PropTypes*/} from 'react'
-import {View} from 'ea-react-dm'
+import {View} from 'ea-react-dm-v14'
 import {Head, Footer} from 'ea-head'
 import {Grid, Row, Col} from 'eagle-ui'
 import TestControl from '../../../controller/test/TestControl'

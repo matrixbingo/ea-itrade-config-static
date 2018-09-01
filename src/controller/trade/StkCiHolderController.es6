@@ -1,4 +1,4 @@
-import {Control, Action} from 'ea-react-dm'
+import {Control, Action} from 'ea-react-dm-v14'
 import StkCiHolderModel from '../../model/trade/StkCiHolderModel'
 //import BaseControl from '../base/BaseControl'
 

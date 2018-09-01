@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import {Grid, Row, Col} from 'eagle-ui'
 import {DropDownSuggestion} from '../../utils/index'
 import TestControl from '../../../../controller/test/TestControl'
-import {View} from 'ea-react-dm'
+import {View} from 'ea-react-dm-v14'
 
 @View(TestControl)
 export default class DropDownSuggestionTest extends Component {

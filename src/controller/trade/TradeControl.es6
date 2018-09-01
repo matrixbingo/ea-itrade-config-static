@@ -1,4 +1,4 @@
-import {Control,Action} from 'ea-react-dm'
+import {Control,Action} from 'ea-react-dm-v14'
 import TradeModel from '../../model/trade/TradeModel'
 //import BaseControl from '../base/BaseControl'
 

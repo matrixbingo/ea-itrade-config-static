@@ -1,4 +1,4 @@
-import {Control,fetch,Action} from 'ea-react-dm'
+import {Control,fetch,Action} from 'ea-react-dm-v14'
 import TestModel from '../../model/test/TestModel'
 //import BaseControl from '../base/BaseControl'
 

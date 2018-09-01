@@ -8,7 +8,7 @@ import {actionType} from '../../../../constants/action-type'
 import {DataUtil} from '../../utils/util/Index'
 import TradUtil from '../../../../view/components/trade/common/common'
 import './TradeHistoryChart.less'
-import {fetch} from 'ea-react-dm'
+import {fetch} from 'ea-react-dm-v14'
 import {rtools} from '../../../pages/Index'
 import {Spin} from 'antd'
 
